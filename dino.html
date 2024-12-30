@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArkTheLive | Дино x5</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #121212;
+            color: #eaeaea;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: #1f1f1f;
+            border-radius: 10px;
+            padding: 30px;
+            width: 1000px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            margin: 20px auto;
+        }
+        .el__logo{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .el__logo img{
+            width: 300px;
+        }
+
+        .bl_column__containder{
+            display: flex;
+        }
+
+        .bl_column__item {
+            flex: 1;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #b0b0b0;
+        }
+
+        .input-group label.el__title{
+            font-size: 16px;
+            color: #2887e9;
+            font-weight: bold;
+        }
+
+        /*.input-group input, .input-group span*/
+        .input-group input
+        {
+            padding: 12px;
+            font-size: 16px;
+            background-color: #333333;
+            border: 1px solid #444444;
+            border-radius: 6px;
+            color: #eaeaea;
+        }
+
+        .input-group input:focus,
+        .input-group span:focus {
+            outline: none;
+            border-color: #7c4dff;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 20px;
+            flex-direction: column;
+            margin-top: 10px;
+        }
+
+        .checkbox-group label {
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            color: #d7d7d7;
+            cursor: pointer;
+        }
+
+        .checkbox-group input {
+            margin-right: 8px;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked {
+            background-color: #7c4dff;
+        }
+
+        #result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            color: #7c4dff;
+            padding: 10px;
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+
+        .checkbox-group input[type="checkbox"]:checked + label {
+            color: #7c4dff;
+        }
+
+        .input-group input:disabled {
+            background-color: #222222;
+            border-color: #444444;
+            color: #777777;
+        }
+        h3{
+            color: #2887e9;
+        }
+        .resource-item{
+            display: flex;
+        }
+        .el_other_material__name, .el_other_material__val{
+            width: 250px;
+            color: #7c4dff;
+            font-size: 18px;
+        }
+        .el_other_material__val{
+            font-weight: bold
+        }
+
+        /*switch*/
+        .aiz-switch input:empty {
+            height: 0;
+            width: 0;
+            overflow: hidden;
+            position: absolute;
+            opacity: 0;
+        }
+        .aiz-switch input:empty ~ span {
+            display: inline-block;
+            position: relative;
+            text-indent: 0;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            line-height: 24px;
+            height: 21px;
+            width: 40px;
+            border-radius: 12px;
+            margin-right: 6px;
+            vertical-align: bottom;
+        }
+        .aiz-switch input:empty ~ span:after,
+        .aiz-switch input:empty ~ span:before {
+            position: absolute;
+            display: block;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            content: " ";
+            -webkit-transition: all 0.1s ease-in;
+            transition: all 0.1s ease-in;
+            width: 40px;
+            border-radius: 12px;
+        }
+        .aiz-switch input:empty ~ span:before {
+            background-color: #e8ebf1;
+        }
+        .aiz-switch input:empty ~ span:after {
+            height: 17px;
+            width: 17px;
+            line-height: 20px;
+            top: 2px;
+            bottom: 2px;
+            margin-left: 2px;
+            font-size: 0.8em;
+            text-align: center;
+            vertical-align: middle;
+            color: #f8f9fb;
+            background-color: #b105058a;
+        }
+        .aiz-switch input:checked ~ span:after {
+            background-color: #f77b0b;
+            margin-left: 20px;
+        }
+        .aiz-switch-secondary input:checked ~ span:after {
+            background-color: #8f97ab;
+        }
+        .aiz-switch-success input:checked ~ span:after {
+            background-color: #10970e;
+        }
+        .aiz-switch-info input:checked ~ span:after {
+            background-color: #25bcf1;
+        }
+        .aiz-switch-warning input:checked ~ span:after {
+            background-color: #ffc519;
+        }
+        .aiz-switch-danger input:checked ~ span:after {
+            background-color: #ef486a;
+        }
+        /*switch*/
+        .el__pointer{
+            color: #d7d7d7 !important;
+            cursor: pointer;
+        }
+
+        /*alerts*/
+        .bl_alert{
+            border: 1px solid;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .bl_alert.notice{
+            color: #6ea8fe;
+            border-color: #084298;
+            background-color: #031633;
+        }
+        .bl_alert.warning{
+            color: #ffda6a;
+            border-color: #997404;
+            background-color: #332701;
+        }
+        .bl_alert.default{
+            color: #f8f9fa;
+            border-color: #495057;
+            background-color: #343a40;
+        }
+        .bl_alert h4{
+            margin: 0;
+            font-weight: bold;
+        }
+        .bl_alert p{
+            margin: 4px 0px 0 0px;
+        }
+        /**/
+
+        @media (max-width: 900px) {
+            body{
+                height: auto;
+                padding: 10px;
+            }
+            .container{
+                width: 100%;
+                padding: 10px;
+            }
+            .bl_column__containder{
+                flex-direction: column;
+            }
+        }
+        .el_reset__radio{
+            color: red;
+            font-size: 17px;
+            border-bottom: 1px dotted;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <div class = "el__logo"><a href = "https://shankar21.github.io/"><img src = "min_logo.png" /></a></div>
+        <div class = "bl_alert warning">
+            <h4>Кластер x5</h4>
+            <p>Дино у которых родной уровень <strong>6-9 имеют минимальную</strong> цену при продаже - <strong>3500 элемента</strong></p>
+            <p>Минимальная цена на дино 1-5 лвлов составляет 10.500 элемента</p>
+        </div>
+        <div class = "bl_alert default">
+            <p>- В поле <strong>Уровень динозавра/яйца</strong> ввести врожденный уровень продаваемого дино. *<i>Врожденный уровень - уровень который дино получает после рождения или приручения.</i></p>
+            <p>- Выбрать <strong>Характеристики динозавра</strong>. При необходимости выбрать <strong>Количество характеристик 65+</strong> и <strong>Гигантозавр,Кархородонтозавр,Мек</strong> (если продаваемый дино относится к этому виду).</p>
+            <p>- Для расчета цены Страйдера достаточно выбрать <strong>Страйдер</strong> и ввести его уровень.</p>
+            <p>- После заполнения необходимых данных по вашему дино вы увидите стоимость вашего динозавра с несколькими видами ресурсов.</p>
+        </div>
+        <div class = "bl_column__containder">
+            <div class = "bl_column__item">
+                <div class="input-group">
+                    <label for="lvl" class = "el__title">Уровень динозавра/яйца:</label>
+                    <input type="number" oninput="this.value = this.value.replace(/[^\d]/g, '')" id="lvl" value="0">
+                </div>
+                <input type="hidden" id="cluster" value="5" disabled>
+            </div>
+            <div class = "bl_column__item">
+            </div>
+        </div>
+        <div class = "bl_column__containder">
+            <div class = "bl_column__item">
+                <div class="input-group">
+                    <label class = "el__title">Характеристики динозавра <span class = "el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
+                    <div class="checkbox-group">
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "rb" type="radio" value = "3" id="b4">
+                            <span class="slider round"></span>
+                            Имеющего диких предков
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "rb" type="radio" value = "4" id="b5">
+                            <span class="slider round"></span>
+                            Имеющего не дикую родословную
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "rb" type="radio" value = "6" id="b6">
+                            <span class="slider round"></span>
+                            Одна из хар-к 65 или выше
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "rb" type="radio" value = "10" id="b7">
+                            <span class="slider round"></span>
+                            Одна из хар-к 100 или выше
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "rb" type="radio" value = "15" id="b8">
+                            <span class="slider round"></span>
+                            Одна из хар-к 150 или выше
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "rb" type="radio" value = "20" id="b9">
+                            <span class="slider round"></span>
+                            Одна из хар-к 200 или выше
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "rb" type="radio" value = "30" id="b10">
+                            <span class="slider round"></span>
+                            Одна из хар-к 250 или выше
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class = "bl_column__item">
+                <div class="input-group">
+                    <label class = "el__title">Колличество характеристик 65+ <span class = "el_reset__radio" onclick="return resetRadio('re');">✘</span></label>
+                    <div class="checkbox-group">
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "re" type="radio" value = "1.7" id="e4">
+                            <span class="slider round"></span>
+                            2 характеристики +70% к цене
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "re" type="radio" value = "1.8" id="e5">
+                            <span class="slider round"></span>
+                            3 характеристики +80% к цене
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "re" type="radio" value = "1.9" id="e6">
+                            <span class="slider round"></span>
+                            4 характеристики +90% к цене
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "re" type="radio" value = "1.95" id="e7">
+                            <span class="slider round"></span>
+                            5 характеристики +95% к цене
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name = "re" type="radio" value = "2" id="e8">
+                            <span class="slider round"></span>
+                            6 характеристик и более +100% к цене
+                        </label>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label class="aiz-switch aiz-switch-success mb-0 el__pointer">
+                        <input type="checkbox" value = "2" id="e10">
+                        <span class="slider round"></span>
+                        Гиганотозавр, Кархородонтозавр, Мек
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label class="aiz-switch aiz-switch-success mb-0 el__pointer">
+                        <input type="checkbox" id="straider">
+                        <span class="slider round"></span>
+                        Страйдер
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div id="result">Итоговая цена в Элементе: 0</div>
+        <div id="resources">
+            <h3>Итоговое значение в других ресурсах:</h3>
+        </div>
+    </div>
+    <script defer="" src="script_dino.js?v=1.0.2"></script>
+</body>
+</html>

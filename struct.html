@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArkTheLive | Структуры x5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #bb86fc;
+        }
+        .el__logo{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .el__logo img{
+            width: 300px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #2c2c2c;
+            border-radius: 4px;
+            margin: 5px;
+            transition: background 0.3s;
+            color: #e0e0e0;
+        }
+        .tab.active {
+            background: #7c4dff;
+            color: #121212;
+        }
+        .tab:hover {
+            background: #3a3a3a;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        .searchable {
+            position: relative;
+        }
+        .searchable input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-size: 16px;
+            background: #2c2c2c;
+            color: #e0e0e0;
+            box-sizing: border-box;
+        }
+        .searchable select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-size: 16px;
+            background: #2c2c2c;
+            color: #e0e0e0;
+        }
+        .output {
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #2c2c2c;
+            margin-top: 10px;
+        }
+        .output-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #444;
+        }
+        .output-item:last-child {
+            border-bottom: none;
+        }
+        .output-item strong {
+            color: #7c4dff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: #e0e0e0;
+        }
+        table th, table td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+        table th {
+            background: #7c4dff;
+            font-weight: 500;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            .tabs {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .tab {
+                text-align: center;
+            }
+            .output-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .output-item strong {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class = "el__logo"><a href = "https://shankar21.github.io/"><img src = "min_logo.png" /></a></div>
+        <div class="tabs">
+            <div class="tab active" data-target="structures-tab">Структуры</div>
+            <div class="tab" data-target="multipliers-tab">Множитель ценности</div>
+        </div>
+
+        <div id="structures-tab" class="content active">
+            <div class="searchable">
+                <input type="text" id="search-input" placeholder="Фильтр списка структур">
+                <select id="structure-select">
+                    <option value="">Выберите структуру...</option>
+                </select>
+            </div>
+            <div id="output" class="output" style="display: none;"></div>
+        </div>
+
+        <div id="multipliers-tab" class="content">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ресурс</th>
+                            <th>Множитель</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Баранина (сырая)</td><td>60</td></tr>
+                        <tr><td>Баранина (жареная)</td><td>56</td></tr>
+                        <tr><td>Биотоксин</td><td>20</td></tr>
+                        <tr><td>Волокно</td><td>1200</td></tr>
+                        <tr><td>Волосы</td><td>0.05</td></tr>
+                        <tr><td>Дерево</td><td>120</td></tr>
+                        <tr><td>Жемчуг (белый)</td><td>80</td></tr>
+                        <tr><td>Желчь аммонита</td><td>4</td></tr>
+                        <tr><td>Зелёный кристалл</td><td>16</td></tr>
+                        <tr><td>Камень</td><td>120</td></tr>
+                        <tr><td>Кожа</td><td>80</td></tr>
+                        <tr><td>Красный кристалл</td><td>8</td></tr>
+                        <tr><td>Кремень</td><td>240</td></tr>
+                        <tr><td>Кристалл</td><td>20</td></tr>
+                        <tr><td>Металл (слитки)</td><td>40</td></tr>
+                        <tr><td>Металл (сырой)</td><td>80</td></tr>
+                        <tr><td>Мутагель</td><td>0.4</td></tr>
+                        <tr><td>Мутаген</td><td>0.003</td></tr>
+                        <tr><td>Мясо (сырое)</td><td>100</td></tr>
+                        <tr><td>Мясо (жареное)</td><td>96</td></tr>
+                        <tr><td>Мясо (валеное)</td><td>90</td></tr>
+                        <tr><td>Наркотики, Древесный сок</td><td>30</td></tr>
+                        <tr><td>Обсидиан</td><td>30</td></tr>
+                        <tr><td>Полимер (крафт)</td><td>40</td></tr>
+                        <tr><td>Полимер (органический)</td><td>46</td></tr>
+                        <tr><td>Протухшее мясо</td><td>60</td></tr>
+                        <tr><td>Первосортка (сырая)</td><td>60</td></tr>
+                        <tr><td>Первосортка (жареная)</td><td>56</td></tr>
+                        <tr><td>Первосортка (вяленая)</td><td>50</td></tr>
+                        <tr><td>Рыба (сырая)</td><td>80</td></tr>
+                        <tr><td>Рыба (жареная)</td><td>76</td></tr>
+                        <tr><td>Синий кристалл</td><td>12</td></tr>
+                        <tr><td>Солома</td><td>600</td></tr>
+                        <tr><td>Сжиженый газ</td><td>20</td></tr>
+                        <tr><td>Хитин</td><td>60</td></tr>
+                        <tr><td>Цементная паста</td><td>30</td></tr>
+                        <tr><td>Чёрный жемчуг</td><td>8</td></tr>
+                        <tr><td>Элемент (осколки)</td><td>100</td></tr>
+                        <tr><td>Элемент (пыль)</td><td>1000</td></tr>
+                        <tr><td>Элемент</td><td>1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script defer="" src="script_struct.js?v=1.0.0"></script>
+</body>
+</html>

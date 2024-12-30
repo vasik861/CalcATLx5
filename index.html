@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARK the LIVE</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1d1d1d;
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*height: 100vh;*/
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .title img{
+            width: 300px;
+        }
+
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .buttons a {
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #fff;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: transform 0.2s;
+        }
+
+        .buttons a:hover {
+            transform: scale(1.1);
+        }
+
+        .dino {
+            position: fixed;
+            bottom: 10px;
+            width: 100px;
+            height: 100px;
+            animation: moveDino 20s linear infinite;
+        }
+
+        .dino:hover {
+            animation-play-state: paused;
+        }
+
+        @keyframes moveDino {
+            0% {
+                transform: translateX(-50px) scaleX(1);
+            }
+            50% {
+                transform: translateX(100vw) scaleX(1);
+            }
+            51% {
+                transform: translateX(100vw) scaleX(-1);
+            }
+            100% {
+                transform: translateX(-50px) scaleX(-1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dino">
+        <img src="Chromium_T-Rex-error-offline.svg.png" alt="Running Dino">
+    </div>
+    <div class="container">
+        <div class="title"><img src = "1000.png" /></div>
+        <div class="buttons">
+            <a href="/struct.html">Структуры x5</a>
+            <a href="/dino.html">Дино x5</a>
+            <a href="/items.html">Снаряжение x5</a>
+        </div>
+    </div>
+</body>
+</html>
