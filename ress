@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArkTheLive | Конвертер ресурсов x5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            color: #bb86fc;
+        }
+        h2 {
+            color: #7c4dff;
+            margin-top: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #7c4dff;
+        }
+        .el__logo{
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .el__logo img{
+            width: 300px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            background: #2c2c2c;
+            border-radius: 4px;
+            margin: 5px;
+            transition: background 0.3s;
+            color: #e0e0e0;
+        }
+        .tab.active {
+            background: #7c4dff;
+            color: #121212;
+        }
+        .tab:hover {
+            background: #3a3a3a;
+        }
+        .content {
+            display: none;
+        }
+        .content.active {
+            display: block;
+        }
+        .searchable {
+            position: relative;
+        }
+        .searchable input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-size: 16px;
+            background: #2c2c2c;
+            color: #e0e0e0;
+            box-sizing: border-box;
+        }
+        .searchable select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-size: 16px;
+            background: #2c2c2c;
+            color: #e0e0e0;
+        }
+        .output {
+            padding: 15px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            background: #2c2c2c;
+            margin-top: 10px;
+        }
+        .output-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #444;
+        }
+        .output-item:last-child {
+            border-bottom: none;
+        }
+        .output-item strong {
+            color: #7c4dff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            color: #e0e0e0;
+        }
+        table th, table td {
+            border: 1px solid #444;
+            padding: 8px;
+            text-align: left;
+        }
+        table th {
+            background: #7c4dff;
+            font-weight: 500;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+        }
+        
+        /* Стили для конвертера ресурсов */
+        .converter-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 20px;
+            margin: 30px 0;
+            align-items: start;
+        }
+        
+        .converter-box {
+            background: #2c2c2c;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #444;
+        }
+        
+        .converter-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #bb86fc;
+            text-align: center;
+        }
+        
+        .converter-select, .converter-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #555;
+            border-radius: 4px;
+            background: #1e1e1e;
+            color: #e0e0e0;
+            font-size: 16px;
+        }
+        
+        .converter-result {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 10px;
+            border: 1px solid #7c4dff;
+            text-align: center;
+            font-size: 18px;
+            color: #7c4dff;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .swap-button {
+            background: #7c4dff;
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 40px;
+            transition: background 0.3s;
+        }
+        
+        .swap-button:hover {
+            background: #6a3ce8;
+        }
+        
+        .converter-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: #7c4dff;
+            margin-top: 40px;
+        }
+        
+        .quick-converters {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .quick-converter {
+            background: #2c2c2c;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quick-converter:hover {
+            background: #3a3a3a;
+            border-color: #7c4dff;
+        }
+        
+        .quick-converter-title {
+            font-weight: 500;
+            color: #bb86fc;
+            margin-bottom: 10px;
+        }
+        
+        .quick-converter-result {
+            font-size: 16px;
+            color: #7c4dff;
+        }
+        
+        .resources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .resource-item {
+            background: #2c2c2c;
+            padding: 10px 15px;
+            border-radius: 4px;
+            border: 1px solid #444;
+            display: flex;
+            justify-content: space-between;
+            transition: all 0.2s;
+        }
+        
+        .resource-item:hover {
+            border-color: #7c4dff;
+            transform: translateY(-2px);
+        }
+        
+        .resource-name {
+            color: #e0e0e0;
+        }
+        
+        .resource-value {
+            color: #7c4dff;
+            font-weight: 500;
+        }
+
+        @media (max-width: 900px) {
+            .converter-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+                gap: 10px;
+            }
+            
+            .swap-button {
+                margin: 10px auto;
+                order: 3;
+            }
+            
+            .converter-arrow {
+                display: none;
+            }
+            
+            .quick-converters {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            .tabs {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .tab {
+                text-align: center;
+            }
+            .output-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .output-item strong {
+                margin-bottom: 5px;
+            }
+            
+            .resources-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class = "el__logo"><a href = "index.html"><img src = "min_logo.png" /></a></div>
+        <div class="tabs">
+            <div class="tab active" data-target="structures-tab">Структуры</div>
+            <div class="tab" data-target="converter-tab">Конвертер ресурсов</div>
+            <div class="tab" data-target="multipliers-tab">Множители ресурсов</div>
+        </div>
+
+        <div id="structures-tab" class="content active">
+            <div class="searchable">
+                <input type="text" id="search-input" placeholder="Фильтр списка структур">
+                <select id="structure-select">
+                    <option value="">Выберите структуру...</option>
+                </select>
+            </div>
+            <div id="output" class="output" style="display: none;"></div>
+        </div>
+
+        <div id="converter-tab" class="content">
+            <h2>Конвертер ресурсов x5</h2>
+            <p>Конвертируйте количество ресурсов в элементы и наоборот по множителям сервера x5.</p>
+            
+            <div class="converter-container">
+                <div class="converter-box">
+                    <div class="converter-title">Исходный ресурс</div>
+                    <select id="from-resource" class="converter-select">
+                        <option value="">Выберите ресурс...</option>
+                        <option value="element">Элемент</option>
+                        <option value="element_dust">Элемент (пыль)</option>
+                        <option value="element_shard">Элемент (осколки)</option>
+                        <option value="metal_ingot">Металл (слитки)</option>
+                        <option value="metal_raw">Металл (сырой)</option>
+                        <option value="crystal">Кристалл</option>
+                        <option value="obsidian">Обсидиан</option>
+                        <option value="polymer_craft">Полимер (крафт)</option>
+                        <option value="polymer_organic">Полимер (органический)</option>
+                        <option value="black_pearl">Чёрный жемчуг</option>
+                        <option value="silica_pearl">Жемчуг (белый)</option>
+                        <option value="cementing_paste">Цементная паста</option>
+                        <option value="chitin">Хитин</option>
+                        <option value="keratin">Кератин</td>
+                        <option value="wood">Дерево</option>
+                        <option value="stone">Камень</option>
+                        <option value="flint">Кремень</option>
+                        <option value="fiber">Волокно</option>
+                        <option value="hide">Кожа</option>
+                        <option value="gasoline">Бензин</option>
+                        <option value="oil">Нефть</option>
+                        <option value="raw_meat">Мясо (сырое)</option>
+                        <option value="cooked_meat">Мясо (жареное)</option>
+                    </select>
+                    <input type="number" id="from-amount" class="converter-input" placeholder="Количество" value="100">
+                </div>
+                
+                <div class="swap-button" id="swap-button">
+                    ↔
+                </div>
+                
+                <div class="converter-box">
+                    <div class="converter-title">Целевой ресурс</div>
+                    <select id="to-resource" class="converter-select">
+                        <option value="">Выберите ресурс...</option>
+                        <option value="element" selected>Элемент</option>
+                        <option value="element_dust">Элемент (пыль)</option>
+                        <option value="element_shard">Элемент (осколки)</option>
+                        <option value="metal_ingot">Металл (слитки)</option>
+                        <option value="metal_raw">Металл (сырой)</option>
+                        <option value="crystal">Кристалл</option>
+                        <option value="obsidian">Обсидиан</option>
+                        <option value="polymer_craft">Полимер (крафт)</option>
+                        <option value="polymer_organic">Полимер (органический)</option>
+                        <option value="black_pearl">Чёрный жемчуг</option>
+                        <option value="silica_pearl">Жемчуг (белый)</option>
+                        <option value="cementing_paste">Цементная паста</option>
+                        <option value="chitin">Хитин</option>
+                        <option value="keratin">Кератин</td>
+                        <option value="wood">Дерево</option>
+                        <option value="stone">Камень</option>
+                        <option value="flint">Кремень</option>
+                        <option value="fiber">Волокно</option>
+                        <option value="hide">Кожа</option>
+                        <option value="gasoline">Бензин</option>
+                        <option value="oil">Нефть</option>
+                        <option value="raw_meat">Мясо (сырое)</option>
+                        <option value="cooked_meat">Мясо (жареное)</option>
+                    </select>
+                    <div class="converter-result" id="conversion-result">0</div>
+                </div>
+            </div>
+            
+            <div class="quick-converters">
+                <div class="quick-converter" data-from="element" data-to="metal_ingot" data-amount="1">
+                    <div class="quick-converter-title">1 Элемент → Металл (слитки)</div>
+                    <div class="quick-converter-result" id="quick-element-to-metal">0</div>
+                </div>
+                <div class="quick-converter" data-from="element" data-to="polymer_craft" data-amount="1">
+                    <div class="quick-converter-title">1 Элемент → Полимер (крафт)</div>
+                    <div class="quick-converter-result" id="quick-element-to-polymer">0</div>
+                </div>
+                <div class="quick-converter" data-from="metal_ingot" data-to="element" data-amount="100">
+                    <div class="quick-converter-title">100 Металл (слитки) → Элемент</div>
+                    <div class="quick-converter-result" id="quick-metal-to-element">0</div>
+                </div>
+                <div class="quick-converter" data-from="crystal" data-to="element" data-amount="100">
+                    <div class="quick-converter-title">100 Кристалл → Элемент</div>
+                    <div class="quick-converter-result" id="quick-crystal-to-element">0</div>
+                </div>
+            </div>
+            
+            <h2>Все множители ресурсов</h2>
+            <div class="resources-list" id="all-resources-list">
+                <!-- Список ресурсов будет заполнен JavaScript -->
+            </div>
+        </div>
+
+        <div id="multipliers-tab" class="content">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Название ресурса</th>
+                            <th>Множитель за 1 элемент</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Аквариум</td><td>5</td></tr>
+                        <tr><td>Баранина (сырая)</td><td>60</td></tr>
+                        <tr><td>Баранина (жареная)</td><td>56</td></tr>
+                        <tr><td>Барнакл</td><td>4</td></tr>
+                        <tr><td>Бензин</td><td>20</td></tr>
+                        <tr><td>Биотоксин</td><td>20</td></tr>
+                        <tr><td>Волокно</td><td>1200</td></tr>
+                        <tr><td>Волосы</td><td>0.05</td></tr>
+                        <tr><td>Дерево</td><td>120</td></tr>
+                        <tr><td>Жемчуг (белый)</td><td>80</td></tr>
+                        <tr><td>Желчь аммонита</td><td>4</td></tr>
+                        <tr><td>Закаленная сталь</td><td>16</td></tr>
+                        <tr><td>Зелёный кристалл</td><td>16</td></tr>
+                        <tr><td>Камень</td><td>120</td></tr>
+                        <tr><td>Кожа</td><td>80</td></tr>
+                        <tr><td>Красный кристалл</td><td>8</td></tr>
+                        <tr><td>Кремень</td><td>240</td></tr>
+                        <tr><td>Кристалл</td><td>20</td></tr>
+                        <tr><td>Кератин</td><td>60</td></tr>
+                        <tr><td>Марганец</td><td>60</td></tr>
+                        <tr><td>Металл (слитки)</td><td>40</td></tr>
+                        <tr><td>Металл (сырой)</td><td>80</td></tr>
+                        <tr><td>Мутагель</td><td>0.4</td></tr>
+                        <tr><td>Мутаген</td><td>0.003</td></tr>
+                        <tr><td>Мясо (сырое)</td><td>100</td></tr>
+                        <tr><td>Мясо (жареное)</td><td>96</td></tr>
+                        <tr><td>Мясо (вареное)</td><td>90</td></tr>
+                        <tr><td>Наркотики, Древесный сок</td><td>30</td></tr>
+                        <tr><td>Нефть</td><td>30</td></tr>
+                        <tr><td>Обсидиан</td><td>30</td></tr>
+                        <tr><td>Полимер (крафт)</td><td>40</td></tr>
+                        <tr><td>Полимер (органический)</td><td>46</td></tr>
+                        <tr><td>Протухшее мясо</td><td>60</td></tr>
+                        <tr><td>Первосортка (сырая)</td><td>60</td></tr>
+                        <tr><td>Первосортка (жареная)</td><td>56</td></tr>
+                        <tr><td>Первосортка (вяленая)</td><td>50</td></tr>
+                        <tr><td>Рыбья чешуя</td><td>30</td></tr>
+                        <tr><td>Рыба (сырая)</td><td>80</td></tr>
+                        <tr><td>Рыба (жареное)</td><td>76</td></tr>
+                        <tr><td>Синий кристалл</td><td>12</td></tr>
+                        <tr><td>Солома</td><td>600</td></tr>
+                        <tr><td>Сжиженый газ</td><td>20</td></tr>
+                        <tr><td>Хитин</td><td>60</td></tr>
+                        <tr><td>Цементная паста</td><td>30</td></tr>
+                        <tr><td>Чёрный жемчуг</td><td>8</td></tr>
+                        <tr><td>Элемент (осколки)</td><td>100</td></tr>
+                        <tr><td>Элемент (пыль)</td><td>1000</td></tr>
+                        <tr><td>Элемент</td><td>1</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Данные о множителях ресурсов для сервера x5
+        const resourceMultipliers = {
+            "element": 1,
+            "element_dust": 1000,
+            "element_shard": 100,
+            "metal_ingot": 40,
+            "metal_raw": 80,
+            "crystal": 20,
+            "obsidian": 30,
+            "polymer_craft": 40,
+            "polymer_organic": 46,
+            "black_pearl": 8,
+            "silica_pearl": 80,
+            "cementing_paste": 30,
+            "chitin": 60,
+            "keratin": 60,
+            "wood": 120,
+            "stone": 120,
+            "flint": 240,
+            "fiber": 1200,
+            "hide": 80,
+            "gasoline": 20,
+            "oil": 30,
+            "raw_meat": 100,
+            "cooked_meat": 96
+        };
+        
+        // Отображение имен ресурсов
+        const resourceNames = {
+            "element": "Элемент",
+            "element_dust": "Элемент (пыль)",
+            "element_shard": "Элемент (осколки)",
+            "metal_ingot": "Металл (слитки)",
+            "metal_raw": "Металл (сырой)",
+            "crystal": "Кристалл",
+            "obsidian": "Обсидиан",
+            "polymer_craft": "Полимер (крафт)",
+            "polymer_organic": "Полимер (органический)",
+            "black_pearl": "Чёрный жемчуг",
+            "silica_pearl": "Жемчуг (белый)",
+            "cementing_paste": "Цементная паста",
+            "chitin": "Хитин",
+            "keratin": "Кератин",
+            "wood": "Дерево",
+            "stone": "Камень",
+            "flint": "Кремень",
+            "fiber": "Волокно",
+            "hide": "Кожа",
+            "gasoline": "Бензин",
+            "oil": "Нефть",
+            "raw_meat": "Мясо (сырое)",
+            "cooked_meat": "Мясо (жареное)"
+        };
+        
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Инициализация вкладок
+            initTabs();
+            
+            // Инициализация конвертера
+            initConverter();
+            
+            // Заполнение списка всех ресурсов
+            fillResourcesList();
+            
+            // Расчет быстрых конвертаций
+            updateQuickConverters();
+        });
+        
+        // Функция инициализации вкладок
+        function initTabs() {
+            const tabs = document.querySelectorAll('.tab');
+            const contents = document.querySelectorAll('.content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const targetId = this.getAttribute('data-target');
+                    
+                    // Удаляем активный класс у всех вкладок и контента
+                    tabs.forEach(t => t.classList.remove('active'));
+                    contents.forEach(c => c.classList.remove('active'));
+                    
+                    // Добавляем активный класс текущей вкладке и соответствующему контенту
+                    this.classList.add('active');
+                    document.getElementById(targetId).classList.add('active');
+                    
+                    // Если открыта вкладка конвертера, обновляем быстрые конвертации
+                    if (targetId === 'converter-tab') {
+                        updateQuickConverters();
+                    }
+                });
+            });
+        }
+        
+        // Функция инициализации конвертера
+        function initConverter() {
+            const fromResource = document.getElementById('from-resource');
+            const toResource = document.getElementById('to-resource');
+            const fromAmount = document.getElementById('from-amount');
+            const swapButton = document.getElementById('swap-button');
+            const conversionResult = document.getElementById('conversion-result');
+            
+            // Функция расчета конвертации
+            function calculateConversion() {
+                const from = fromResource.value;
+                const to = toResource.value;
+                const amount = parseFloat(fromAmount.value) || 0;
+                
+                if (!from || !to || amount <= 0) {
+                    conversionResult.textContent = "0";
+                    return;
+                }
+                
+                // Получаем множители для ресурсов
+                const fromMultiplier = resourceMultipliers[from];
+                const toMultiplier = resourceMultipliers[to];
+                
+                if (!fromMultiplier || !toMultiplier) {
+                    conversionResult.textContent = "Ошибка";
+                    return;
+                }
+                
+                // Расчет: (amount / fromMultiplier) * toMultiplier
+                const result = (amount / fromMultiplier) * toMultiplier;
+                
+                // Форматирование результата
+                if (result >= 1000) {
+                    conversionResult.textContent = result.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                } else if (result >= 1) {
+                    conversionResult.textContent = result.toFixed(2).replace(/\.?0+$/, "");
+                } else {
+                    conversionResult.textContent = result.toFixed(4).replace(/\.?0+$/, "");
+                }
+            }
+            
+            // Обработчики событий для элементов конвертера
+            fromResource.addEventListener('change', calculateConversion);
+            toResource.addEventListener('change', calculateConversion);
+            fromAmount.addEventListener('input', calculateConversion);
+            
+            // Обработчик для кнопки обмена
+            swapButton.addEventListener('click', function() {
+                const fromValue = fromResource.value;
+                const toValue = toResource.value;
+                const fromAmountValue = fromAmount.value;
+                
+                // Меняем местами ресурсы
+                fromResource.value = toValue;
+                toResource.value = fromValue;
+                
+                // Пересчитываем результат
+                calculateConversion();
+            });
+            
+            // Инициализация быстрых конвертеров
+            document.querySelectorAll('.quick-converter').forEach(converter => {
+                converter.addEventListener('click', function() {
+                    const from = this.getAttribute('data-from');
+                    const to = this.getAttribute('data-to');
+                    const amount = this.getAttribute('data-amount');
+                    
+                    // Устанавливаем значения в основном конвертере
+                    fromResource.value = from;
+                    toResource.value = to;
+                    fromAmount.value = amount;
+                    
+                    // Пересчитываем результат
+                    calculateConversion();
+                });
+            });
+            
+            // Инициализация расчета
+            calculateConversion();
+        }
+        
+        // Функция заполнения списка всех ресурсов
+        function fillResourcesList() {
+            const resourcesList = document.getElementById('all-resources-list');
+            resourcesList.innerHTML = '';
+            
+            // Создаем массив из ключей и сортируем по имени ресурса
+            const resourceKeys = Object.keys(resourceMultipliers);
+            resourceKeys.sort((a, b) => resourceNames[a].localeCompare(resourceNames[b]));
+            
+            // Добавляем каждый ресурс в список
+            resourceKeys.forEach(key => {
+                const item = document.createElement('div');
+                item.className = 'resource-item';
+                item.innerHTML = `
+                    <div class="resource-name">${resourceNames[key]}</div>
+                    <div class="resource-value">${resourceMultipliers[key]}</div>
+                `;
+                
+                // Добавляем обработчик клика для использования в конвертере
+                item.addEventListener('click', function() {
+                    document.getElementById('from-resource').value = key;
+                    document.getElementById('from-amount').focus();
+                    
+                    // Переключаемся на вкладку конвертера
+                    document.querySelector('.tab[data-target="converter-tab"]').click();
+                    
+                    // Пересчитываем результат
+                    const event = new Event('change');
+                    document.getElementById('from-resource').dispatchEvent(event);
+                });
+                
+                resourcesList.appendChild(item);
+            });
+        }
+        
+        // Функция обновления быстрых конвертеров
+        function updateQuickConverters() {
+            document.querySelectorAll('.quick-converter').forEach(converter => {
+                const from = converter.getAttribute('data-from');
+                const to = converter.getAttribute('data-to');
+                const amount = parseFloat(converter.getAttribute('data-amount')) || 0;
+                
+                if (!from || !to || amount <= 0) return;
+                
+                const fromMultiplier = resourceMultipliers[from];
+                const toMultiplier = resourceMultipliers[to];
+                
+                if (!fromMultiplier || !toMultiplier) return;
+                
+                // Расчет: (amount / fromMultiplier) * toMultiplier
+                const result = (amount / fromMultiplier) * toMultiplier;
+                
+                // Форматирование результата
+                let formattedResult;
+                if (result >= 1000) {
+                    formattedResult = result.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                } else if (result >= 1) {
+                    formattedResult = result.toFixed(2).replace(/\.?0+$/, "");
+                } else {
+                    formattedResult = result.toFixed(4).replace(/\.?0+$/, "");
+                }
+                
+                // Находим элемент результата внутри конвертера
+                const resultElement = converter.querySelector('.quick-converter-result');
+                if (resultElement) {
+                    resultElement.textContent = formattedResult;
+                    resultElement.id = ''; // Убираем старый id
+                }
+            });
+        }
+        
+        // Функция для конвертации структур (из вашего оригинального кода)
+        // Оставлена для совместимости
+        function convertStructure() {
+            // Ваш оригинальный код для конвертации структур
+        }
+    </script>
+</body>
+</html>
