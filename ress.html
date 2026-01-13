@@ -169,6 +169,30 @@
             color: #7c4dff;
             font-weight: bold;
         }
+        .swap-button-container {
+            text-align: center;
+            margin: 5px 0 15px 0;
+        }
+        .swap-button {
+            background: #7c4dff;
+            color: #121212;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .swap-button:hover {
+            background: #6a3dff;
+        }
+        .swap-icon {
+            font-size: 16px;
+        }
 
         @media (max-width: 600px) {
             .container {
@@ -243,8 +267,8 @@
                         <tr><td>Металл (слитки)</td><td>40</td></tr>
                         <tr><td>Металл (сырой)</td><td>80</td></tr>
                         <tr><td>Мутагель</td><td>0.4</td></tr>
-                        <tr><td>Мутаген", multiplier: 0.003},
-            {name: "Мясо (сырое)</td><td>100</td></tr>
+                        <tr><td>Мутаген</td><td>0.003</td></tr>
+                        <tr><td>Мясо (сырое)</td><td>100</td></tr>
                         <tr><td>Мясо (жареное)</td><td>96</td></tr>
                         <tr><td>Мясо (вареное)</td><td>90</td></tr>
                         <tr><td>Наркотики, Древесный сок</td><td>30</td></tr>
@@ -280,6 +304,13 @@
                     <select id="from-resource">
                         <option value="">Выберите исходный ресурс...</option>
                     </select>
+                </div>
+                
+                <div class="swap-button-container">
+                    <button class="swap-button" id="swap-resources">
+                        <span class="swap-icon">↕</span>
+                        Поменять местами
+                    </button>
                 </div>
                 
                 <div class="form-group">
@@ -378,6 +409,7 @@
         // Populate resource dropdowns
         const fromResourceSelect = document.getElementById('from-resource');
         const toResourceSelect = document.getElementById('to-resource');
+        const swapButton = document.getElementById('swap-resources');
         
         resources.forEach(resource => {
             const option1 = document.createElement('option');
@@ -393,32 +425,34 @@
             toResourceSelect.appendChild(option2);
         });
 
-        // Format number with 3 decimal places for results and no decimals for input
+        // Format number functions
         function formatNumber(num, isInput = false) {
-            if (num === 0) return isInput ? '0' : '0.000';
+            if (num === 0) return isInput ? '0' : '0';
             
             if (isInput) {
                 // For input field: no decimal places, just integer with thousands separators
                 const intNum = Math.round(num);
                 return intNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
             } else {
-                // For results: 3 decimal places
-                const rounded = Math.round(num * 1000) / 1000;
-                
-                // Format with thousands separators
-                const parts = rounded.toString().split('.');
-                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-                
-                // Ensure 3 decimal places
-                if (parts.length === 1) {
-                    return parts[0] + '.000';
-                } else {
-                    // Pad with zeros if needed
-                    parts[1] = parts[1].padEnd(3, '0');
-                    // Trim if too long
-                    parts[1] = parts[1].substring(0, 3);
-                    return parts.join('.');
-                }
+                // For results: integer with thousands separators
+                const intNum = Math.round(num);
+                return intNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            }
+        }
+
+        function formatNumberForFormula(num) {
+            if (num === 0) return '0';
+            // For formula: 3 decimal places
+            const rounded = Math.round(num * 1000) / 1000;
+            const parts = rounded.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            
+            if (parts.length === 1) {
+                return parts[0] + '.000';
+            } else {
+                parts[1] = parts[1].padEnd(3, '0');
+                parts[1] = parts[1].substring(0, 3);
+                return parts.join('.');
             }
         }
 
@@ -467,6 +501,29 @@
             return selectedOption ? parseFloat(selectedOption.value) : 0;
         }
 
+        // Get selected index and value from select
+        function getSelectedOption(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            return {
+                value: selectedOption ? selectedOption.value : '',
+                name: selectedOption ? selectedOption.getAttribute('data-name') : '',
+                index: selectElement.selectedIndex
+            };
+        }
+
+        // Swap resources function
+        swapButton.addEventListener('click', function() {
+            const fromOption = getSelectedOption(fromResourceSelect);
+            const toOption = getSelectedOption(toResourceSelect);
+            
+            // Swap the selections
+            fromResourceSelect.selectedIndex = toOption.index;
+            toResourceSelect.selectedIndex = fromOption.index;
+            
+            // Recalculate conversion
+            calculateConversion();
+        });
+
         // Calculate conversion between resources
         function calculateConversion() {
             const fromMultiplierValue = getResourceMultiplier(fromResourceSelect);
@@ -485,16 +542,17 @@
             const elementsAmountValue = amount / fromMultiplierValue;
             const resultAmount = elementsAmountValue * toMultiplierValue;
             
-            // Update main result
-            resultValue.textContent = formatNumber(resultAmount);
+            // Update main result (rounded to integer)
+            const roundedResult = Math.round(resultAmount);
+            resultValue.textContent = formatNumber(roundedResult);
             resultDescription.textContent = `${fromName} → ${toName}`;
             
             // Update formula
             originalAmount.textContent = formatNumber(amount, true);
-            fromMultiplier.textContent = formatNumber(fromMultiplierValue);
-            toMultiplier.textContent = formatNumber(toMultiplierValue);
-            elementsAmount.textContent = formatNumber(elementsAmountValue);
-            finalResult.textContent = formatNumber(resultAmount);
+            fromMultiplier.textContent = formatNumberForFormula(fromMultiplierValue);
+            toMultiplier.textContent = formatNumberForFormula(toMultiplierValue);
+            elementsAmount.textContent = formatNumberForFormula(elementsAmountValue);
+            finalResult.textContent = formatNumber(roundedResult);
             
             conversionResult.style.display = 'block';
         }
