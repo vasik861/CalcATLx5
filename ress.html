@@ -281,7 +281,7 @@
             <div class="converter-info">
                 <h4>Как работает конвертация:</h4>
                 <p>Все ресурсы конвертируются через элемент как общий эквивалент:</p>
-                <p><strong>Ресурс A → Элементы → Ресурс B</strong></p>
+                <p><strong>Ресурс A → Элемент → Ресурс B</strong></p>
                 <p>Формула: <code>(Количество A × Множитель B) ÷ Множитель A = Количество B</code></p>
             </div>
         </div>
@@ -501,14 +501,14 @@
             const toName = toSelect.options[toSelect.selectedIndex]?.dataset.name || '';
             
             if (!amount || !fromMultiplier || !toMultiplier || !fromName || !toName) {
-                alert('Пожалуйста, заполните все поля и выберите ресурсы');
+                alert('Пожалуйста, заполните все поля и выберите ресурс');
                 return;
             }
             
             // Формула: (amount * toMultiplier) / fromMultiplier
             const result = (amount * toMultiplier) / fromMultiplier;
             
-            // Вычисляем сколько элементов
+            // Вычисляем сколько элемент
             const elements = amount / fromMultiplier;
             
             // Обновляем результат
@@ -522,8 +522,8 @@
             `;
             
             detailsText.innerHTML = `
-                ${formatNumber(amount)} ${fromName} = ${formatNumber(elements)} элементов<br>
-                ${formatNumber(elements)} элементов = ${formatNumber(result)} ${toName}<br>
+                ${formatNumber(amount)} ${fromName} = ${formatNumber(elements)} Элемента<br>
+                ${formatNumber(elements)} Элемента = ${formatNumber(result)} ${toName}<br>
                 Коэффициент: 1 ${fromName} = ${formatNumber(toMultiplier / fromMultiplier)} ${toName}
             `;
             
