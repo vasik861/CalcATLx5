@@ -9,272 +9,425 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: #121212;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             color: #e0e0e0;
             margin: 0;
             padding: 0;
+            min-height: 100vh;
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 20px auto;
-            padding: 20px;
-            background: #1e1e1e;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            padding: 25px;
+            background: rgba(25, 25, 35, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(124, 77, 255, 0.1);
         }
         h1 {
             text-align: center;
-            color: #bb86fc;
+            color: #7c4dff;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, #7c4dff 0%, #b388ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .el__logo{
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(124, 77, 255, 0.3);
         }
         .el__logo img{
-            width: 300px;
+            width: 280px;
+            filter: drop-shadow(0 4px 8px rgba(124, 77, 255, 0.3));
         }
         .tabs {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            gap: 10px;
+            background: rgba(30, 30, 40, 0.8);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(124, 77, 255, 0.2);
         }
         .tab {
-            padding: 10px 20px;
+            padding: 12px 25px;
             cursor: pointer;
-            background: #2c2c2c;
-            border-radius: 4px;
-            margin: 5px;
-            transition: background 0.3s;
-            color: #e0e0e0;
+            background: rgba(40, 40, 50, 0.9);
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #b0b0b0;
+            font-weight: 500;
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
         .tab.active {
-            background: #7c4dff;
-            color: #121212;
+            background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(124, 77, 255, 0.3);
+            transform: translateY(-2px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .tab:hover {
-            background: #3a3a3a;
+        .tab:hover:not(.active) {
+            background: rgba(124, 77, 255, 0.15);
+            color: #d0d0d0;
+            transform: translateY(-1px);
+            border: 1px solid rgba(124, 77, 255, 0.3);
         }
         .content {
             display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .content.active {
             display: block;
         }
         .searchable {
             position: relative;
+            margin-bottom: 25px;
         }
-        /* Обновленные стили полей ввода как на сайте-примере */
-        .searchable input, .searchable select {
+        /* Стили полей ввода как на items.html */
+        .searchable input, .searchable select, 
+        #converter-amount, #converter-from, #converter-to {
             width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 10px;
-            border: 1px solid #444;
-            border-radius: 6px;
+            padding: 14px 18px;
+            margin-bottom: 15px;
+            border: 2px solid rgba(124, 77, 255, 0.2);
+            border-radius: 10px;
             font-size: 16px;
-            background: #2c2c2c;
-            color: #e0e0e0;
+            background: rgba(30, 30, 40, 0.9);
+            color: #ffffff;
             box-sizing: border-box;
             transition: all 0.3s ease;
             font-family: 'Roboto', sans-serif;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
-        .searchable input:focus, .searchable select:focus {
+        .searchable input:focus, .searchable select:focus,
+        #converter-amount:focus, #converter-from:focus, #converter-to:focus {
             outline: none;
             border-color: #7c4dff;
-            box-shadow: 0 0 0 2px rgba(124, 77, 255, 0.2);
-            background: #333;
+            background: rgba(40, 40, 50, 0.9);
+            box-shadow: 0 0 0 3px rgba(124, 77, 255, 0.1), 
+                       inset 0 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .searchable input::placeholder {
             color: #888;
+            font-style: italic;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #b0b0b0;
+            font-weight: 500;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .converter-row {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: flex-end;
             flex-wrap: wrap;
         }
         .converter-row > div {
             flex: 1;
-            min-width: 200px;
+            min-width: 220px;
         }
         .converter-arrow {
-            font-size: 24px;
+            font-size: 28px;
             color: #7c4dff;
             text-align: center;
-            min-width: 40px;
+            min-width: 50px;
+            padding-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(124, 77, 255, 0.3);
         }
         .converter-result {
-            margin-top: 20px;
-            padding: 20px;
+            margin-top: 25px;
+            padding: 25px;
             border: 2px solid #7c4dff;
-            border-radius: 8px;
-            background: #2c2c2c;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(124, 77, 255, 0.1) 0%, rgba(40, 40, 50, 0.9) 100%);
             text-align: center;
-            font-size: 1.2em;
+            font-size: 1.3em;
+            box-shadow: 0 8px 25px rgba(124, 77, 255, 0.2);
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .converter-result span {
             color: #7c4dff;
             font-weight: bold;
-            font-size: 1.4em;
+            font-size: 1.5em;
+            text-shadow: 0 2px 4px rgba(124, 77, 255, 0.3);
         }
         .output {
-            padding: 15px;
-            border: 1px solid #333;
-            border-radius: 4px;
-            background: #2c2c2c;
-            margin-top: 10px;
+            padding: 20px;
+            border: 1px solid rgba(124, 77, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(30, 30, 40, 0.9);
+            margin-top: 20px;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         .output-item {
             display: flex;
             justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #444;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(124, 77, 255, 0.1);
+            align-items: center;
         }
         .output-item:last-child {
             border-bottom: none;
         }
         .output-item strong {
             color: #7c4dff;
+            font-size: 1.1em;
         }
         table {
             width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 25px;
             color: #e0e0e0;
-        }
-        table th, table td {
-            border: 1px solid #444;
-            padding: 8px;
-            text-align: left;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         table th {
-            background: #7c4dff;
-            font-weight: 500;
+            background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
+            font-weight: 600;
+            padding: 15px;
+            text-align: left;
+            color: white;
+            border: none;
+        }
+        table td {
+            padding: 12px 15px;
+            border: none;
+            border-bottom: 1px solid rgba(124, 77, 255, 0.1);
+            background: rgba(40, 40, 50, 0.9);
+        }
+        table tr:last-child td {
+            border-bottom: none;
+        }
+        table tr:hover td {
+            background: rgba(124, 77, 255, 0.1);
         }
         .table-wrapper {
             overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid rgba(124, 77, 255, 0.2);
         }
         .formatted-input {
             text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: 500;
         }
         
-        /* ОБНОВЛЕННЫЕ СТИЛИ КНОПОК как на сайте-примере */
+        /* Стили кнопок как на items.html */
         .converter-buttons {
             display: flex;
-            gap: 12px;
-            margin-top: 10px;
+            gap: 15px;
+            margin-top: 20px;
         }
         
         .converter-buttons button {
-            padding: 12px 24px;
+            padding: 14px 28px;
             background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             flex: 1;
             font-family: 'Roboto', sans-serif;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px rgba(124, 77, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .converter-buttons button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
         }
         
         .converter-buttons button:hover {
-            background: linear-gradient(135deg, #6a3fe0 0%, #7c4dff 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(124, 77, 255, 0.4);
+        }
+        
+        .converter-buttons button:hover::before {
+            left: 100%;
         }
         
         .converter-buttons button:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 10px rgba(124, 77, 255, 0.3);
+        }
+        
+        .converter-buttons button#clear-converter-btn {
+            background: linear-gradient(135deg, #ff4757 0%, #ff3838 100%);
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+        }
+        
+        .converter-buttons button#clear-converter-btn:hover {
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
         }
         
         /* Обновленная кнопка обмена */
         .swap-button {
-            background: linear-gradient(135deg, #444 0%, #333 100%);
+            background: linear-gradient(135deg, rgba(124, 77, 255, 0.1) 0%, rgba(40, 40, 50, 0.9) 100%);
             border: 2px solid #7c4dff;
             color: #7c4dff;
-            padding: 10px 15px;
-            border-radius: 8px;
+            padding: 12px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             margin: 0 auto;
             display: block;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(124, 77, 255, 0.2);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .swap-button:hover {
             background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px) rotate(180deg);
+            box-shadow: 0 8px 25px rgba(124, 77, 255, 0.4);
         }
         
         .swap-button:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            transform: translateY(-1px) rotate(180deg);
+            box-shadow: 0 2px 10px rgba(124, 77, 255, 0.3);
         }
         
         .converter-info {
-            margin-top: 10px;
-            padding: 15px;
-            background: #2c2c2c;
-            border-radius: 6px;
-            border-left: 4px solid #7c4dff;
-        }
-
-        /* Стили для кнопки конвертации в основной вкладке */
-        #convert-btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            width: 100%;
-            font-family: 'Roboto', sans-serif;
-            letter-spacing: 0.3px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            margin-top: 10px;
+            margin-top: 25px;
+            padding: 20px;
+            background: rgba(30, 30, 40, 0.9);
+            border-radius: 10px;
+            border-left: 5px solid #7c4dff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
-        #convert-btn:hover {
-            background: linear-gradient(135deg, #6a3fe0 0%, #7c4dff 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        .converter-info h4 {
+            color: #7c4dff;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.2em;
         }
         
-        #convert-btn:active {
-            transform: translateY(0);
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        .converter-info p {
+            margin: 10px 0;
+            line-height: 1.6;
+            color: #b0b0b0;
+        }
+        
+        .converter-info code {
+            background: rgba(124, 77, 255, 0.1);
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #7c4dff;
+            font-family: 'Courier New', monospace;
+            border: 1px solid rgba(124, 77, 255, 0.2);
         }
 
-        /* Обновленные стили селектов */
+        /* Стиль для селектов */
         select {
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%237c4dff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' fill='%237c4dff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
-            background-position: right 12px center;
-            background-size: 16px;
-            padding-right: 40px;
+            background-position: right 18px center;
+            background-size: 18px;
+            padding-right: 50px;
         }
 
-        @media (max-width: 600px) {
+        /* Секция конвертера */
+        #converter-tab h2 {
+            text-align: center;
+            color: #7c4dff;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+        
+        #converter-tab p {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        /* Анимации */
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* Дополнительные декоративные элементы */
+        .glow-effect {
+            position: relative;
+        }
+        
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, #7c4dff, #ff6b6b, #7c4dff);
+            border-radius: 12px;
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .glow-effect:hover::after {
+            opacity: 0.3;
+        }
+
+        @media (max-width: 768px) {
             .container {
                 margin: 10px;
-                padding: 15px;
+                padding: 20px;
             }
             .tabs {
                 flex-direction: column;
@@ -282,16 +435,20 @@
             }
             .tab {
                 text-align: center;
+                width: 100%;
             }
             .output-item {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 5px;
             }
             .output-item strong {
                 margin-bottom: 5px;
+                font-size: 1.2em;
             }
             .converter-row {
                 flex-direction: column;
+                gap: 15px;
             }
             .converter-row > div {
                 width: 100%;
@@ -299,6 +456,7 @@
             .converter-arrow {
                 transform: rotate(90deg);
                 margin: 10px 0;
+                order: 4;
             }
             .converter-buttons {
                 flex-direction: column;
@@ -306,6 +464,36 @@
             .converter-buttons button {
                 width: 100%;
             }
+            .swap-button {
+                width: 50px;
+                height: 50px;
+                margin: 0 auto 15px;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+            .el__logo img {
+                width: 240px;
+            }
+        }
+
+        /* Скроллбар */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(30, 30, 40, 0.9);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #6a3fe0 0%, #7c4dff 100%);
         }
     </style>
 </head>
@@ -320,73 +508,79 @@
 
         <div id="structures-tab" class="content active">
             <div class="searchable">
-                <input type="text" id="search-input" placeholder="Фильтр списка структур" class="formatted-input">
+                <label for="search-input">Поиск структуры</label>
+                <input type="text" id="search-input" placeholder="Введите название структуры..." class="formatted-input">
+                <label for="structure-select">Выберите структуру</label>
                 <select id="structure-select">
-                    <option value="">Выберите структуру...</option>
+                    <option value="">-- Выберите структуру --</option>
                 </select>
             </div>
             <div id="output" class="output" style="display: none;"></div>
         </div>
 
         <div id="converter-tab" class="content">
-            <h2>Конвертер ресурсов</h2>
-            <p style="text-align: center; color: #bbb; margin-bottom: 20px;">
-                Конвертация между любыми ресурсами из таблицы множителей
+            <h2>🔁 Конвертер ресурсов</h2>
+            <p>
+                Конвертация между любыми ресурсами из таблицы множителей через элемент как общий эквивалент
             </p>
             
             <div class="converter-row">
                 <div>
-                    <label for="converter-amount">Количество:</label>
+                    <label for="converter-amount">Количество</label>
                     <input type="text" id="converter-amount" placeholder="Введите количество" class="formatted-input" value="1">
                 </div>
                 <div>
-                    <label for="converter-from">Из ресурса:</label>
+                    <label for="converter-from">Исходный ресурс</label>
                     <select id="converter-from">
-                        <option value="">Выберите ресурс...</option>
+                        <option value="">-- Выберите ресурс --</option>
                     </select>
                 </div>
-                <div style="text-align: center; min-width: 60px;">
+                <div style="text-align: center; min-width: 60px; padding-bottom: 15px;">
                     <button class="swap-button" id="swap-resources" title="Поменять местами">⇄</button>
                 </div>
                 <div>
-                    <label for="converter-to">В ресурс:</label>
+                    <label for="converter-to">Целевой ресурс</label>
                     <select id="converter-to">
-                        <option value="">Выберите ресурс...</option>
+                        <option value="">-- Выберите ресурс --</option>
                     </select>
                 </div>
             </div>
             
             <div class="converter-buttons">
-                <button id="convert-resources-btn">Конвертировать</button>
-                <button id="clear-converter-btn">Очистить</button>
+                <button id="convert-resources-btn">🔄 Конвертировать</button>
+                <button id="clear-converter-btn">🗑️ Очистить</button>
             </div>
             
             <div id="converter-result" class="converter-result" style="display: none;">
                 <div id="result-text"></div>
-                <div style="margin-top: 10px; font-size: 0.9em; color: #bbb;">
+                <div style="margin-top: 15px; font-size: 0.9em; color: #aaa;">
                     <span id="conversion-details"></span>
                 </div>
             </div>
             
             <div class="converter-info">
-                <h4>Как работает конвертация:</h4>
+                <h4>📊 Принцип работы конвертации</h4>
                 <p>Все ресурсы конвертируются через элемент как общий эквивалент:</p>
                 <p><strong>Ресурс A → Элемент → Ресурс B</strong></p>
                 <p>Формула: <code>(Количество A × Множитель B) ÷ Множитель A = Количество B</code></p>
+                <p><em>Множитель показывает, сколько единиц ресурса можно получить за 1 элемент.</em></p>
             </div>
         </div>
 
         <div id="multipliers-tab" class="content">
+            <h3 style="text-align: center; color: #7c4dff; margin-bottom: 20px;">📈 Таблица множителей ресурсов</h3>
+            <p style="text-align: center; color: #aaa; margin-bottom: 25px;">
+                Количество единиц ресурса, получаемого за 1 элемент
+            </p>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>Название ресурс</th>
+                            <th>Название ресурса</th>
                             <th>Множитель за 1 элемент</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Остальные строки таблицы без изменений -->
                         <tr><td>Аквалириум</td><td>5</td></tr>
                         <tr><td>Баранина (сырая)</td><td>60</td></tr>
                         <tr><td>Баранина (жареная)</td><td>56</td></tr>
@@ -583,147 +777,3 @@
 
         // Функция для конвертации ресурсов
         function convertResources() {
-            const amount = parseFormattedNumber(document.getElementById('converter-amount').value);
-            const fromMultiplier = parseFloat(document.getElementById('converter-from').value);
-            const toMultiplier = parseFloat(document.getElementById('converter-to').value);
-            
-            const fromSelect = document.getElementById('converter-from');
-            const toSelect = document.getElementById('converter-to');
-            const fromName = fromSelect.options[fromSelect.selectedIndex]?.dataset.name || '';
-            const toName = toSelect.options[toSelect.selectedIndex]?.dataset.name || '';
-            
-            if (!amount || !fromMultiplier || !toMultiplier || !fromName || !toName) {
-                alert('Пожалуйста, заполните все поля и выберите ресурс');
-                return;
-            }
-            
-            // Формула: (amount * toMultiplier) / fromMultiplier
-            const result = (amount * toMultiplier) / fromMultiplier;
-            
-            // Вычисляем сколько элемент
-            const elements = amount / fromMultiplier;
-            
-            // Обновляем результат
-            const resultElement = document.getElementById('converter-result');
-            const resultText = document.getElementById('result-text');
-            const detailsText = document.getElementById('conversion-details');
-            
-            resultText.innerHTML = `
-                <span style="color: #7c4dff">${formatNumber(amount)} ${fromName}</span> = 
-                <span style="color: #7c4dff">${formatNumber(result)} ${toName}</span>
-            `;
-            
-            detailsText.innerHTML = `
-                ${formatNumber(amount)} ${fromName} = ${formatNumber(elements)} Элемента<br>
-                ${formatNumber(elements)} Элемента = ${formatNumber(result)} ${toName}<br>
-                Коэффициент: 1 ${fromName} = ${formatNumber(toMultiplier / fromMultiplier)} ${toName}
-            `;
-            
-            resultElement.style.display = 'block';
-        }
-
-        // Функция для обмена ресурсов местами
-        function swapResources() {
-            const fromSelect = document.getElementById('converter-from');
-            const toSelect = document.getElementById('converter-to');
-            const amountInput = document.getElementById('converter-amount');
-            
-            const fromValue = fromSelect.value;
-            const fromIndex = fromSelect.selectedIndex;
-            const toValue = toSelect.value;
-            const toIndex = toSelect.selectedIndex;
-            
-            // Меняем местами значения
-            fromSelect.value = toValue;
-            toSelect.value = fromValue;
-            
-            // Меняем местами индексы
-            if (toSelect.options[fromIndex]) {
-                fromSelect.selectedIndex = fromIndex;
-            }
-            if (toSelect.options[toIndex]) {
-                toSelect.selectedIndex = toIndex;
-            }
-            
-            // Если есть результат, пересчитываем
-            if (amountInput.value && fromValue && toValue) {
-                convertResources();
-            }
-        }
-
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            // Навигация по вкладкам
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.content');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const target = tab.getAttribute('data-target');
-                    
-                    // Обновляем активные вкладки
-                    tabs.forEach(t => t.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    document.getElementById(target).classList.add('active');
-                });
-            });
-
-            // Заполняем селекты ресурсами
-            populateResourceSelects();
-
-            // Обработчики для форматированного ввода
-            const amountInput = document.getElementById('converter-amount');
-            
-            amountInput.addEventListener('input', function() {
-                updateFormattedInput(this);
-                // Автоматическая конвертация при изменении количества
-                if (this.value && 
-                    document.getElementById('converter-from').value && 
-                    document.getElementById('converter-to').value) {
-                    convertResources();
-                }
-            });
-            
-            amountInput.addEventListener('blur', function() {
-                updateFormattedInput(this);
-            });
-
-            // Обработчики для конвертера
-            document.getElementById('convert-resources-btn').addEventListener('click', convertResources);
-            
-            document.getElementById('clear-converter-btn').addEventListener('click', function() {
-                document.getElementById('converter-amount').value = '1';
-                populateResourceSelects(); // Сбрасываем к значениям по умолчанию
-                document.getElementById('converter-result').style.display = 'none';
-                updateFormattedInput(amountInput);
-            });
-            
-            document.getElementById('swap-resources').addEventListener('click', swapResources);
-
-            // Автоматическая конвертация при изменении выбора ресурсов
-            ['converter-from', 'converter-to'].forEach(id => {
-                document.getElementById(id).addEventListener('change', function() {
-                    if (amountInput.value && 
-                        document.getElementById('converter-from').value && 
-                        document.getElementById('converter-to').value) {
-                        convertResources();
-                    }
-                });
-            });
-
-            // Форматируем начальное значение
-            updateFormattedInput(amountInput);
-            
-            // Делаем начальный расчет
-            if (amountInput.value && 
-                document.getElementById('converter-from').value && 
-                document.getElementById('converter-to').value) {
-                convertResources();
-            }
-        });
-    </script>
-</body>
-</html>
-[file content end]
