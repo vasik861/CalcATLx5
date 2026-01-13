@@ -4,8 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ArkTheLive | Структуры x5</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #4a6fa5;
+            --primary-dark: #3a5985;
+            --secondary: #6d9dc5;
+            --accent: #ff7e5f;
+            --background: #f5f7fa;
+            --card-bg: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e1e5eb;
+            --success: #4caf50;
+            --shadow: rgba(0, 0, 0, 0.08);
+            --shadow-hover: rgba(0, 0, 0, 0.12);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -14,114 +30,163 @@
         
         body {
             font-family: 'Roboto', sans-serif;
-            background: #f5f5f5;
-            color: #333;
+            background: var(--background);
+            color: var(--text);
             line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            box-shadow: 0 8px 30px var(--shadow);
+            overflow: hidden;
         }
         
+        /* Header Styles */
         .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            padding: 30px;
             text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #e0e0e0;
+            color: white;
+            position: relative;
+            overflow: hidden;
         }
         
-        .header h1 {
-            color: #2c3e50;
-            font-size: 28px;
-            margin-bottom: 10px;
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,50 Q25,40 50,50 T100,50" stroke="rgba(255,255,255,0.1)" fill="none" stroke-width="2"/><path d="M0,30 Q25,20 50,30 T100,30" stroke="rgba(255,255,255,0.1)" fill="none" stroke-width="2"/><path d="M0,70 Q25,60 50,70 T100,70" stroke="rgba(255,255,255,0.1)" fill="none" stroke-width="2"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .logo-container {
+            position: relative;
+            z-index: 1;
+            margin-bottom: 20px;
+        }
+        
+        .logo-container img {
+            max-width: 350px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+        
+        .page-title {
+            font-size: 32px;
             font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
         
-        .header p {
-            color: #7f8c8d;
-            font-size: 16px;
+        .page-subtitle {
+            font-size: 18px;
+            font-weight: 300;
+            opacity: 0.9;
             max-width: 800px;
             margin: 0 auto;
+        }
+        
+        /* Tabs Styles */
+        .tabs-container {
+            background: white;
+            border-bottom: 1px solid var(--border);
+            padding: 0 30px;
         }
         
         .tabs {
             display: flex;
             justify-content: center;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-            overflow: hidden;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px 0;
         }
         
         .tab {
-            padding: 15px 30px;
+            padding: 14px 28px;
             cursor: pointer;
-            background: #fff;
-            color: #7f8c8d;
+            background: #f8f9fa;
+            border-radius: 8px;
             font-weight: 500;
-            font-size: 16px;
             transition: all 0.3s ease;
-            border-bottom: 3px solid transparent;
+            color: var(--text-light);
+            border: 2px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .tab i {
+            font-size: 18px;
         }
         
         .tab:hover {
-            background: #f8f9fa;
-            color: #3498db;
+            background: #e9ecef;
+            color: var(--primary);
+            transform: translateY(-2px);
         }
         
         .tab.active {
-            color: #3498db;
-            background: #f8f9fa;
-            border-bottom: 3px solid #3498db;
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary-dark);
+            box-shadow: 0 4px 12px rgba(74, 111, 165, 0.3);
         }
         
+        /* Content Styles */
         .content {
             display: none;
-            background: #fff;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            padding: 40px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .content.active {
             display: block;
         }
         
-        .searchable {
-            margin-bottom: 25px;
-        }
-        
-        .searchable input, 
-        .searchable select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-            background: #fff;
-            color: #333;
-            margin-bottom: 10px;
-            transition: border 0.3s;
-        }
-        
-        .searchable input:focus, 
-        .searchable select:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        }
-        
         .section-title {
-            color: #2c3e50;
-            font-size: 22px;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #eaeaea;
-            font-weight: 600;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .section-title i {
+            color: var(--accent);
+        }
+        
+        /* Converter Styles */
+        .converter-section {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+        }
+        
+        .converter-description {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 30px;
+            font-size: 16px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         .converter-row {
@@ -134,240 +199,334 @@
         
         .converter-group {
             flex: 1;
-            min-width: 200px;
+            min-width: 250px;
         }
         
-        .converter-group label {
+        .converter-label {
             display: block;
             margin-bottom: 8px;
-            color: #555;
             font-weight: 500;
-            font-size: 14px;
+            color: var(--text);
         }
         
-        .converter-amount {
-            position: relative;
-        }
-        
-        .converter-amount input {
-            padding-left: 40px;
-        }
-        
-        .currency-symbol {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #7f8c8d;
-            font-weight: 500;
-        }
-        
-        .swap-button {
-            background: #f8f9fa;
-            border: 2px solid #ddd;
-            color: #7f8c8d;
-            padding: 10px 15px;
-            border-radius: 6px;
-            cursor: pointer;
+        .converter-input, .converter-select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
             font-size: 16px;
             transition: all 0.3s;
+            background: white;
+            color: var(--text);
+        }
+        
+        .converter-input:focus, .converter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+        }
+        
+        .converter-input.formatted-input {
+            text-align: right;
+            font-weight: 500;
+        }
+        
+        .converter-arrow {
+            font-size: 28px;
+            color: var(--primary);
+            text-align: center;
             min-width: 60px;
         }
         
+        .swap-button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 0 auto;
+            font-size: 20px;
+        }
+        
         .swap-button:hover {
-            background: #e9ecef;
-            border-color: #3498db;
-            color: #3498db;
+            background: var(--primary-dark);
+            transform: rotate(180deg);
         }
         
         .converter-buttons {
             display: flex;
             gap: 15px;
             margin-top: 30px;
+            justify-content: center;
         }
         
-        .btn {
-            padding: 12px 25px;
+        .converter-btn {
+            padding: 14px 32px;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
+            border-radius: 8px;
             font-size: 16px;
             font-weight: 500;
+            cursor: pointer;
             transition: all 0.3s;
-            text-align: center;
-            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .btn-primary {
-            background: #3498db;
+        .converter-btn.primary {
+            background: var(--primary);
             color: white;
         }
         
-        .btn-primary:hover {
-            background: #2980b9;
+        .converter-btn.primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(74, 111, 165, 0.3);
         }
         
-        .btn-secondary {
-            background: #e74c3c;
-            color: white;
+        .converter-btn.secondary {
+            background: #f1f5f9;
+            color: var(--text);
+            border: 1px solid var(--border);
         }
         
-        .btn-secondary:hover {
-            background: #c0392b;
-        }
-        
-        .btn-outline {
-            background: transparent;
-            border: 2px solid #3498db;
-            color: #3498db;
-        }
-        
-        .btn-outline:hover {
-            background: #3498db;
-            color: white;
+        .converter-btn.secondary:hover {
+            background: #e2e8f0;
         }
         
         .converter-result {
             margin-top: 30px;
             padding: 25px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 8px;
-            color: white;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #f8fafc 0%, #e6f0ff 100%);
+            border: 2px solid var(--primary);
             text-align: center;
             display: none;
         }
         
         .converter-result.active {
             display: block;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-text {
+            font-size: 22px;
+            margin-bottom: 15px;
         }
         
         .result-value {
-            font-size: 32px;
+            color: var(--primary);
             font-weight: 700;
-            margin: 15px 0;
-            color: white;
+            font-size: 28px;
         }
         
-        .result-details {
-            font-size: 14px;
-            opacity: 0.9;
-            margin-top: 15px;
+        .conversion-details {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px dashed var(--border);
+            font-size: 15px;
+            color: var(--text-light);
+            line-height: 1.8;
         }
         
         .converter-info {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
             margin-top: 30px;
-            border-left: 4px solid #3498db;
+            padding: 20px;
+            background: #f0f7ff;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
         }
         
         .converter-info h4 {
-            color: #2c3e50;
+            color: var(--primary);
             margin-bottom: 10px;
             font-size: 18px;
         }
         
         .converter-info p {
-            color: #555;
             margin-bottom: 10px;
-            line-height: 1.5;
         }
         
         .converter-info code {
-            background: #e9ecef;
-            padding: 2px 6px;
+            background: #e6f0ff;
+            padding: 4px 8px;
             border-radius: 4px;
             font-family: monospace;
-            color: #e74c3c;
+            color: var(--primary-dark);
         }
         
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            background: white;
+        /* Table Styles */
+        .table-container {
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow);
+            border: 1px solid var(--border);
         }
         
-        table {
+        .multipliers-table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 600px;
         }
         
-        table th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        .multipliers-table thead {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 15px;
+        }
+        
+        .multipliers-table th {
+            padding: 18px 20px;
             text-align: left;
-            font-weight: 500;
+            font-weight: 600;
             font-size: 16px;
         }
         
-        table th:first-child {
-            border-top-left-radius: 8px;
+        .multipliers-table tbody tr {
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
         }
         
-        table th:last-child {
-            border-top-right-radius: 8px;
+        .multipliers-table tbody tr:nth-child(even) {
+            background: #f9fbfd;
         }
         
-        table td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eee;
-            color: #333;
+        .multipliers-table tbody tr:hover {
+            background: #f0f7ff;
         }
         
-        table tr:hover {
-            background: #f8f9fa;
+        .multipliers-table td {
+            padding: 16px 20px;
+            font-size: 15px;
         }
         
-        table tr:last-child td {
-            border-bottom: none;
+        .multipliers-table td:first-child {
+            font-weight: 500;
         }
         
-        .output {
-            background: #fff;
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .output.active {
-            display: block;
-        }
-        
-        .output-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .output-item:last-child {
-            border-bottom: none;
-        }
-        
-        .output-item strong {
-            color: #3498db;
+        .multipliers-table td:last-child {
             font-weight: 600;
+            color: var(--primary);
+            text-align: right;
         }
         
-        .logo {
-            text-align: center;
+        /* Search Styles */
+        .search-section {
             margin-bottom: 30px;
         }
         
-        .logo img {
-            max-width: 200px;
-            height: auto;
+        .search-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 20px 16px 50px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 18px;
+        }
+        
+        /* Output Styles */
+        .output-section {
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 25px;
+            border: 1px solid var(--border);
+        }
+        
+        .output-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .output-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .output-item {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 3px 8px var(--shadow);
+        }
+        
+        .output-item-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 16px;
+        }
+        
+        .output-item-value {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .container {
+                margin: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .logo-container img {
+                max-width: 280px;
+            }
+            
+            .page-title {
+                font-size: 28px;
+            }
+            
+            .content {
+                padding: 25px;
+            }
         }
         
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
+            body {
+                padding: 10px;
             }
             
             .tabs {
@@ -375,18 +534,8 @@
             }
             
             .tab {
-                text-align: center;
-                border-bottom: 1px solid #eee;
-                border-left: 3px solid transparent;
-            }
-            
-            .tab.active {
-                border-left: 3px solid #3498db;
-                border-bottom: 1px solid #eee;
-            }
-            
-            .content {
-                padding: 20px;
+                width: 100%;
+                justify-content: center;
             }
             
             .converter-row {
@@ -397,163 +546,217 @@
                 width: 100%;
             }
             
-            .swap-button {
+            .converter-arrow {
                 transform: rotate(90deg);
                 margin: 10px 0;
+            }
+            
+            .multipliers-table th, 
+            .multipliers-table td {
+                padding: 12px 15px;
+            }
+            
+            .output-grid {
+                grid-template-columns: 1fr;
             }
             
             .converter-buttons {
                 flex-direction: column;
             }
             
-            table {
-                font-size: 14px;
-            }
-            
-            table th,
-            table td {
-                padding: 10px;
+            .converter-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
         
         @media (max-width: 480px) {
-            .header h1 {
+            .header {
+                padding: 15px;
+            }
+            
+            .logo-container img {
+                max-width: 220px;
+            }
+            
+            .page-title {
                 font-size: 24px;
+            }
+            
+            .page-subtitle {
+                font-size: 16px;
             }
             
             .content {
                 padding: 15px;
             }
             
-            .section-title {
-                font-size: 20px;
-            }
-            
-            .result-value {
-                font-size: 24px;
+            .converter-section {
+                padding: 20px;
             }
         }
         
-        .formatted-input {
-            text-align: right;
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-light);
+            font-size: 14px;
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
         }
         
-        /* Стили для выделения важных элементов */
-        .highlight {
-            background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 500;
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
         }
         
-        /* Стили для скроллбара */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 4px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="logo">
-            <a href="index.html"><img src="min_logo.png" alt="ArkTheLive Logo"></a>
+        <div class="header">
+            <div class="logo-container">
+                <a href="index.html"><img src="min_logo.png" alt="ArkTheLive Logo"></a>
+            </div>
+            <h1 class="page-title">Калькулятор структур ARK: Survival Evolved</h1>
+            <p class="page-subtitle">Расчет ресурсов для строительства и конвертация между различными материалами</p>
         </div>
         
-        <div class="header">
-            <h1>Калькулятор структур и ресурсов ARK: Survival Evolved</h1>
-            <p>Расчет стоимости структур и конвертация ресурсов с учетом множителей серверов x5</p>
-        </div>
-
-        <div class="tabs">
-            <div class="tab active" data-target="structures-tab">Структуры</div>
-            <div class="tab" data-target="converter-tab">Конвертер ресурсов</div>
-            <div class="tab" data-target="multipliers-tab">Таблица множителей</div>
+        <div class="tabs-container">
+            <div class="tabs">
+                <div class="tab active" data-target="structures-tab">
+                    <i class="fas fa-cube"></i>
+                    <span>Структуры</span>
+                </div>
+                <div class="tab" data-target="converter-tab">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Конвертер ресурсов</span>
+                </div>
+                <div class="tab" data-target="multipliers-tab">
+                    <i class="fas fa-table"></i>
+                    <span>Множитель за 1 элемент</span>
+                </div>
+            </div>
         </div>
 
         <div id="structures-tab" class="content active">
-            <h2 class="section-title">Калькулятор структур</h2>
-            <div class="searchable">
-                <input type="text" id="search-input" placeholder="Введите название структуры для поиска..." class="formatted-input">
-                <select id="structure-select">
-                    <option value="">Выберите структуру из списка...</option>
-                </select>
+            <div class="search-section">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="search-input" class="search-input" placeholder="Введите название структуры для поиска...">
+                </div>
             </div>
-            <div id="output" class="output"></div>
+            
+            <div class="section-title">
+                <i class="fas fa-list"></i>
+                <span>Список структур</span>
+            </div>
+            
+            <div class="output-section">
+                <div class="output-title">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Ресурсы для выбранной структуры</span>
+                </div>
+                <div id="output" class="output-grid">
+                    <!-- Здесь будет динамически загружаться информация о структурах -->
+                    <div class="output-item">
+                        <div class="output-item-title">Дерево</div>
+                        <div class="output-item-value">1,200</div>
+                    </div>
+                    <div class="output-item">
+                        <div class="output-item-title">Камень</div>
+                        <div class="output-item-value">800</div>
+                    </div>
+                    <div class="output-item">
+                        <div class="output-item-title">Металл</div>
+                        <div class="output-item-value">200</div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id="converter-tab" class="content">
-            <h2 class="section-title">Конвертер ресурсов</h2>
-            <p style="text-align: center; color: #7f8c8d; margin-bottom: 25px; font-size: 16px;">
-                Конвертация между любыми ресурсами на основе таблицы множителей
+            <div class="section-title">
+                <i class="fas fa-calculator"></i>
+                <span>Конвертер ресурсов</span>
+            </div>
+            
+            <p class="converter-description">
+                Конвертация между любыми ресурсами из таблицы множителей. Все расчеты основаны на эквивалентной стоимости в элементах.
             </p>
             
-            <div class="converter-row">
-                <div class="converter-group">
-                    <label for="converter-amount">Количество ресурса:</label>
-                    <div class="converter-amount">
-                        <span class="currency-symbol">×</span>
-                        <input type="text" id="converter-amount" placeholder="Введите количество" class="formatted-input" value="1">
+            <div class="converter-section">
+                <div class="converter-row">
+                    <div class="converter-group">
+                        <label class="converter-label" for="converter-amount">Количество:</label>
+                        <input type="text" id="converter-amount" class="converter-input formatted-input" placeholder="Введите количество" value="1">
+                    </div>
+                    
+                    <div class="converter-group">
+                        <label class="converter-label" for="converter-from">Из ресурса:</label>
+                        <select id="converter-from" class="converter-select">
+                            <option value="">Выберите ресурс...</option>
+                        </select>
+                    </div>
+                    
+                    <div class="converter-arrow">
+                        <button class="swap-button" id="swap-resources" title="Поменять местами">
+                            <i class="fas fa-exchange-alt"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="converter-group">
+                        <label class="converter-label" for="converter-to">В ресурс:</label>
+                        <select id="converter-to" class="converter-select">
+                            <option value="">Выберите ресурс...</option>
+                        </select>
                     </div>
                 </div>
                 
-                <div class="converter-group">
-                    <label for="converter-from">Исходный ресурс:</label>
-                    <select id="converter-from">
-                        <option value="">Выберите ресурс...</option>
-                    </select>
+                <div class="converter-buttons">
+                    <button class="converter-btn primary" id="convert-resources-btn">
+                        <i class="fas fa-sync-alt"></i>
+                        <span>Конвертировать</span>
+                    </button>
+                    <button class="converter-btn secondary" id="clear-converter-btn">
+                        <i class="fas fa-broom"></i>
+                        <span>Очистить</span>
+                    </button>
                 </div>
                 
-                <div>
-                    <button class="swap-button" id="swap-resources" title="Поменять ресурсы местами">⇄</button>
+                <div id="converter-result" class="converter-result">
+                    <div class="result-text">
+                        <span id="result-text"></span>
+                    </div>
+                    <div class="conversion-details" id="conversion-details"></div>
                 </div>
                 
-                <div class="converter-group">
-                    <label for="converter-to">Целевой ресурс:</label>
-                    <select id="converter-to">
-                        <option value="">Выберите ресурс...</option>
-                    </select>
+                <div class="converter-info">
+                    <h4><i class="fas fa-info-circle"></i> Как работает конвертация:</h4>
+                    <p>Все ресурсы конвертируются через элемент как общий эквивалент:</p>
+                    <p><strong>Ресурс A → Элемент → Ресурс B</strong></p>
+                    <p>Формула: <code>(Количество A × Множитель B) ÷ Множитель A = Количество B</code></p>
+                    <p>Например: 100 дерева (множитель 120) = 100/120 = 0.8333 элемента = 0.8333 × 40 = 33.33 металла (слитки)</p>
                 </div>
-            </div>
-            
-            <div class="converter-buttons">
-                <button class="btn btn-primary" id="convert-resources-btn">Конвертировать</button>
-                <button class="btn btn-outline" id="clear-converter-btn">Сбросить</button>
-            </div>
-            
-            <div id="converter-result" class="converter-result">
-                <div id="result-text" style="font-size: 18px;">Результат конвертации:</div>
-                <div id="result-value" class="result-value"></div>
-                <div id="conversion-details" class="result-details"></div>
-            </div>
-            
-            <div class="converter-info">
-                <h4>Принцип работы конвертера:</h4>
-                <p>Все ресурсы конвертируются через <span class="highlight">Элемент</span> как общий эквивалент стоимости:</p>
-                <p><strong>Ресурс A → Элемент → Ресурс B</strong></p>
-                <p>Формула расчета: <code>(Количество A × Множитель B) ÷ Множитель A = Количество B</code></p>
             </div>
         </div>
 
         <div id="multipliers-tab" class="content">
-            <h2 class="section-title">Таблица множителей ресурсов</h2>
-            <p style="margin-bottom: 20px; color: #7f8c8d;">Коэффициенты показывают сколько единиц ресурса можно получить за 1 элемент</p>
+            <div class="section-title">
+                <i class="fas fa-chart-bar"></i>
+                <span>Таблица множителей за 1 элемент</span>
+            </div>
             
-            <div class="table-wrapper">
-                <table>
+            <p class="converter-description">
+                В таблице представлено количество каждого ресурса, эквивалентное 1 элементу. Используется для конвертации между ресурсами.
+            </p>
+            
+            <div class="table-container">
+                <table class="multipliers-table">
                     <thead>
                         <tr>
                             <th>Название ресурса</th>
@@ -586,7 +789,7 @@
                         <tr><td>Мутаген</td><td>0.003</td></tr>
                         <tr><td>Мясо (сырое)</td><td>100</td></tr>
                         <tr><td>Мясо (жареное)</td><td>96</td></tr>
-                        <tr><td>Мясо (валеное)</td><td>90</td></tr>
+                        <tr><td>Мясо (вареное)</td><td>90</td></tr>
                         <tr><td>Наркотики, Древесный сок</td><td>30</td></tr>
                         <tr><td>Нефть</td><td>30</td></tr>
                         <tr><td>Обсидиан</td><td>30</td></tr>
@@ -611,6 +814,11 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        
+        <div class="footer">
+            <p>ArkTheLive © 2023 | Калькулятор для ARK: Survival Evolved</p>
+            <p>Все данные предоставлены для ознакомления. Множители могут изменяться с обновлениями игры.</p>
         </div>
     </div>
 
@@ -642,7 +850,7 @@
             {name: "Мутаген", multiplier: 0.003},
             {name: "Мясо (сырое)", multiplier: 100},
             {name: "Мясо (жареное)", multiplier: 96},
-            {name: "Мясо (валеное)", multiplier: 90},
+            {name: "Мясо (вареное)", multiplier: 90},
             {name: "Наркотики, Древесный сок", multiplier: 30},
             {name: "Нефть", multiplier: 30},
             {name: "Обсидиан", multiplier: 30},
@@ -673,6 +881,7 @@
             const num = parseFloat(number);
             if (isNaN(num)) return '0';
             
+            // Определяем сколько знаков после запятой показывать
             let decimals = 6;
             if (num >= 1000) decimals = 2;
             if (num >= 10000) decimals = 0;
@@ -681,6 +890,7 @@
             const parts = num.toFixed(decimals).split('.');
             parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             
+            // Убираем лишние нули в конце дробной части
             if (parts[1]) {
                 parts[1] = parts[1].replace(/0+$/, '');
                 if (!parts[1]) {
@@ -699,22 +909,27 @@
             return isNaN(num) ? 0 : num;
         }
 
-        // Функция для обновления отформатированного значения
+        // Функция для обновления отформатированного значения в поле ввода
         function updateFormattedInput(input) {
             const cursorPosition = input.selectionStart;
             const originalValue = input.value;
             const unformattedValue = originalValue.replace(/\s/g, '');
+            
+            // Сохраняем только цифры и точку
             const numericValue = unformattedValue.replace(/[^\d.]/g, '');
             
+            // Если значение изменилось, обновляем
             if (numericValue !== unformattedValue) {
                 input.value = numericValue;
             }
             
+            // Форматируем число
             if (numericValue && numericValue !== '0') {
                 const parts = numericValue.split('.');
                 parts[0] = formatNumber(parts[0]);
                 input.value = parts.join('.');
                 
+                // Восстанавливаем позицию курсора
                 const newCursorPosition = cursorPosition + (input.value.length - originalValue.length);
                 input.setSelectionRange(newCursorPosition, newCursorPosition);
             }
@@ -725,155 +940,6 @@
             const fromSelect = document.getElementById('converter-from');
             const toSelect = document.getElementById('converter-to');
             
+            // Очищаем селекты
             fromSelect.innerHTML = '<option value="">Выберите ресурс...</option>';
-            toSelect.innerHTML = '<option value="">Выберите ресурс...</option>';
-            
-            multipliersData.forEach(resource => {
-                const optionFrom = document.createElement('option');
-                optionFrom.value = resource.multiplier;
-                optionFrom.textContent = resource.name;
-                optionFrom.dataset.name = resource.name;
-                
-                const optionTo = optionFrom.cloneNode(true);
-                
-                fromSelect.appendChild(optionFrom);
-                toSelect.appendChild(optionTo);
-            });
-            
-            fromSelect.value = 120; // Дерево
-            toSelect.value = 40;    // Металл (слитки)
-        }
-
-        // Функция для конвертации ресурсов
-        function convertResources() {
-            const amount = parseFormattedNumber(document.getElementById('converter-amount').value);
-            const fromMultiplier = parseFloat(document.getElementById('converter-from').value);
-            const toMultiplier = parseFloat(document.getElementById('converter-to').value);
-            
-            const fromSelect = document.getElementById('converter-from');
-            const toSelect = document.getElementById('converter-to');
-            const fromName = fromSelect.options[fromSelect.selectedIndex]?.dataset.name || '';
-            const toName = toSelect.options[toSelect.selectedIndex]?.dataset.name || '';
-            
-            if (!amount || !fromMultiplier || !toMultiplier || !fromName || !toName) {
-                alert('Пожалуйста, заполните все поля и выберите ресурс');
-                return;
-            }
-            
-            const result = (amount * toMultiplier) / fromMultiplier;
-            const elements = amount / fromMultiplier;
-            
-            const resultElement = document.getElementById('converter-result');
-            const resultValue = document.getElementById('result-value');
-            const detailsText = document.getElementById('conversion-details');
-            
-            resultValue.innerHTML = `${formatNumber(amount)} ${fromName} = ${formatNumber(result)} ${toName}`;
-            
-            detailsText.innerHTML = `
-                ${formatNumber(amount)} ${fromName} = ${formatNumber(elements)} Элемента<br>
-                ${formatNumber(elements)} Элемента = ${formatNumber(result)} ${toName}<br>
-                Коэффициент: 1 ${fromName} = ${formatNumber(toMultiplier / fromMultiplier)} ${toName}
-            `;
-            
-            resultElement.classList.add('active');
-        }
-
-        // Функция для обмена ресурсов местами
-        function swapResources() {
-            const fromSelect = document.getElementById('converter-from');
-            const toSelect = document.getElementById('converter-to');
-            const amountInput = document.getElementById('converter-amount');
-            
-            const fromValue = fromSelect.value;
-            const fromIndex = fromSelect.selectedIndex;
-            const toValue = toSelect.value;
-            const toIndex = toSelect.selectedIndex;
-            
-            fromSelect.value = toValue;
-            toSelect.value = fromValue;
-            
-            if (toSelect.options[fromIndex]) {
-                fromSelect.selectedIndex = fromIndex;
-            }
-            if (toSelect.options[toIndex]) {
-                toSelect.selectedIndex = toIndex;
-            }
-            
-            if (amountInput.value && fromValue && toValue) {
-                convertResources();
-            }
-        }
-
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            // Навигация по вкладкам
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.content');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const target = tab.getAttribute('data-target');
-                    
-                    tabs.forEach(t => t.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    document.getElementById(target).classList.add('active');
-                });
-            });
-
-            // Заполняем селекты ресурсами
-            populateResourceSelects();
-
-            // Обработчики для форматированного ввода
-            const amountInput = document.getElementById('converter-amount');
-            
-            amountInput.addEventListener('input', function() {
-                updateFormattedInput(this);
-                if (this.value && 
-                    document.getElementById('converter-from').value && 
-                    document.getElementById('converter-to').value) {
-                    convertResources();
-                }
-            });
-            
-            amountInput.addEventListener('blur', function() {
-                updateFormattedInput(this);
-            });
-
-            // Обработчики для конвертера
-            document.getElementById('convert-resources-btn').addEventListener('click', convertResources);
-            
-            document.getElementById('clear-converter-btn').addEventListener('click', function() {
-                document.getElementById('converter-amount').value = '1';
-                populateResourceSelects();
-                document.getElementById('converter-result').classList.remove('active');
-                updateFormattedInput(amountInput);
-            });
-            
-            document.getElementById('swap-resources').addEventListener('click', swapResources);
-
-            // Автоматическая конвертация при изменении выбора ресурсов
-            ['converter-from', 'converter-to'].forEach(id => {
-                document.getElementById(id).addEventListener('change', function() {
-                    if (amountInput.value && 
-                        document.getElementById('converter-from').value && 
-                        document.getElementById('converter-to').value) {
-                        convertResources();
-                    }
-                });
-            });
-
-            // Форматируем начальное значение
-            updateFormattedInput(amountInput);
-            
-            // Делаем начальный расчет
-            if (amountInput.value && 
-                document.getElementById('converter-from').value && 
-                document.getElementById('converter-to').value) {
-                convertResources();
-            }
-        });
-    </script>
-</body>
-</html>
+            toSelect.innerHTML = '<option value
