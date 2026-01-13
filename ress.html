@@ -1,3 +1,4 @@
+[file content begin]
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,17 +64,32 @@
         .searchable {
             position: relative;
         }
+        /* Обновленные стили полей ввода как на сайте-примере */
         .searchable input, .searchable select {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             margin-bottom: 10px;
-            border: 1px solid #333;
-            border-radius: 4px;
+            border: 1px solid #444;
+            border-radius: 6px;
             font-size: 16px;
             background: #2c2c2c;
             color: #e0e0e0;
             box-sizing: border-box;
+            transition: all 0.3s ease;
+            font-family: 'Roboto', sans-serif;
         }
+        
+        .searchable input:focus, .searchable select:focus {
+            outline: none;
+            border-color: #7c4dff;
+            box-shadow: 0 0 0 2px rgba(124, 77, 255, 0.2);
+            background: #333;
+        }
+        
+        .searchable input::placeholder {
+            color: #888;
+        }
+        
         .converter-row {
             display: flex;
             gap: 10px;
@@ -145,46 +161,114 @@
         .formatted-input {
             text-align: right;
         }
+        
+        /* ОБНОВЛЕННЫЕ СТИЛИ КНОПОК как на сайте-примере */
         .converter-buttons {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin-top: 10px;
         }
+        
         .converter-buttons button {
-            padding: 10px 20px;
-            background: #7c4dff;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            transition: background 0.3s;
+            font-weight: 500;
+            transition: all 0.3s ease;
             flex: 1;
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
+        
         .converter-buttons button:hover {
-            background: #6a3fe0;
+            background: linear-gradient(135deg, #6a3fe0 0%, #7c4dff 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         }
+        
+        .converter-buttons button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Обновленная кнопка обмена */
         .swap-button {
-            background: transparent;
+            background: linear-gradient(135deg, #444 0%, #333 100%);
             border: 2px solid #7c4dff;
             color: #7c4dff;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 10px 15px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             margin: 0 auto;
             display: block;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
+        
         .swap-button:hover {
-            background: #7c4dff;
+            background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
         }
+        
+        .swap-button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
         .converter-info {
             margin-top: 10px;
-            padding: 10px;
+            padding: 15px;
             background: #2c2c2c;
-            border-radius: 4px;
+            border-radius: 6px;
             border-left: 4px solid #7c4dff;
+        }
+
+        /* Стили для кнопки конвертации в основной вкладке */
+        #convert-btn {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #7c4dff 0%, #6a3fe0 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            width: 100%;
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 0.3px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+        }
+        
+        #convert-btn:hover {
+            background: linear-gradient(135deg, #6a3fe0 0%, #7c4dff 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        
+        #convert-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Обновленные стили селектов */
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%237c4dff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
         }
 
         @media (max-width: 600px) {
@@ -215,6 +299,12 @@
             .converter-arrow {
                 transform: rotate(90deg);
                 margin: 10px 0;
+            }
+            .converter-buttons {
+                flex-direction: column;
+            }
+            .converter-buttons button {
+                width: 100%;
             }
         }
     </style>
@@ -296,6 +386,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Остальные строки таблицы без изменений -->
                         <tr><td>Аквалириум</td><td>5</td></tr>
                         <tr><td>Баранина (сырая)</td><td>60</td></tr>
                         <tr><td>Баранина (жареная)</td><td>56</td></tr>
@@ -350,6 +441,7 @@
     </div>
 
     <script>
+        // JavaScript код остается без изменений...
         // Данные множителей из таблицы
         const multipliersData = [
             {name: "Аквалириум", multiplier: 5},
@@ -634,3 +726,4 @@
     </script>
 </body>
 </html>
+[file content end]
