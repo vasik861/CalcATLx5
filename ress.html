@@ -301,7 +301,7 @@
                 
                 <div class="formula">
                     Формула: (<span id="original-amount">0</span> ÷ <span id="from-multiplier">0</span>) × <span id="to-multiplier">0</span> = 
-                    <span class="intermediate-result" id="elements-amount">0</span> элемента → 
+                    <span class="intermediate-result" id="elements-amount">0</span> элементов → 
                     <span class="intermediate-result" id="final-result">0</span>
                 </div>
             </div>
@@ -392,16 +392,27 @@
             toResourceSelect.appendChild(option2);
         });
 
-        // Format input with thousands separators
+        // Format number with 3 decimal places and thousands separators
         function formatNumber(num) {
-            if (num === 0) return '0';
-            const numStr = num.toString();
-            if (numStr.includes('.')) {
-                const parts = numStr.split('.');
-                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            if (num === 0) return '0.000';
+            
+            // Round to 3 decimal places
+            const rounded = Math.round(num * 1000) / 1000;
+            
+            // Format with thousands separators
+            const parts = rounded.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            
+            // Ensure 3 decimal places
+            if (parts.length === 1) {
+                return parts[0] + '.000';
+            } else {
+                // Pad with zeros if needed
+                parts[1] = parts[1].padEnd(3, '0');
+                // Trim if too long
+                parts[1] = parts[1].substring(0, 3);
                 return parts.join('.');
             }
-            return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
         }
 
         // Parse formatted number
