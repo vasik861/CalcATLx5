@@ -125,6 +125,13 @@
         .form-group {
             margin-bottom: 15px;
         }
+        .field-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
         .converter-input {
             text-align: right;
             font-family: monospace;
@@ -267,15 +274,24 @@
 
         <div id="converter-tab" class="content">
             <div class="searchable">
-                <select id="from-resource">
-                    <option value="">Выберите исходный ресурс...</option>
-                </select>
+                <div class="form-group">
+                    <label class="field-label">Исходный ресурс</label>
+                    <select id="from-resource">
+                        <option value="">Выберите исходный ресурс...</option>
+                    </select>
+                </div>
                 
-                <select id="to-resource">
-                    <option value="">Выберите целевой ресурс...</option>
-                </select>
+                <div class="form-group">
+                    <label class="field-label">Целевой ресурс</label>
+                    <select id="to-resource">
+                        <option value="">Выберите целевой ресурс...</option>
+                    </select>
+                </div>
                 
-                <input type="text" id="resource-amount" class="converter-input" placeholder="0" value="1">
+                <div class="form-group">
+                    <label class="field-label">Количество исходного ресурса</label>
+                    <input type="text" id="resource-amount" class="converter-input" placeholder="0" value="1">
+                </div>
             </div>
             
             <div class="converter-result" id="conversion-result" style="display: none;">
