@@ -128,8 +128,9 @@
         .field-label {
             display: block;
             margin-bottom: 8px;
-            color: #e0e0e0;
-            font-size: 14px;
+            color: #bb86fc;
+            font-size: 16px;
+            font-weight: 500;
             opacity: 0.9;
         }
         .converter-input {
@@ -242,8 +243,8 @@
                         <tr><td>Металл (слитки)</td><td>40</td></tr>
                         <tr><td>Металл (сырой)</td><td>80</td></tr>
                         <tr><td>Мутагель</td><td>0.4</td></tr>
-                        <tr><td>Мутаген</td><td>0.003</td></tr>
-                        <tr><td>Мясо (сырое)</td><td>100</td></tr>
+                        <tr><td>Мутаген", multiplier: 0.003},
+            {name: "Мясо (сырое)</td><td>100</td></tr>
                         <tr><td>Мясо (жареное)</td><td>96</td></tr>
                         <tr><td>Мясо (вареное)</td><td>90</td></tr>
                         <tr><td>Наркотики, Древесный сок</td><td>30</td></tr>
@@ -392,26 +393,32 @@
             toResourceSelect.appendChild(option2);
         });
 
-        // Format number with 3 decimal places and thousands separators
-        function formatNumber(num) {
-            if (num === 0) return '0.000';
+        // Format number with 3 decimal places for results and no decimals for input
+        function formatNumber(num, isInput = false) {
+            if (num === 0) return isInput ? '0' : '0.000';
             
-            // Round to 3 decimal places
-            const rounded = Math.round(num * 1000) / 1000;
-            
-            // Format with thousands separators
-            const parts = rounded.toString().split('.');
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-            
-            // Ensure 3 decimal places
-            if (parts.length === 1) {
-                return parts[0] + '.000';
+            if (isInput) {
+                // For input field: no decimal places, just integer with thousands separators
+                const intNum = Math.round(num);
+                return intNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
             } else {
-                // Pad with zeros if needed
-                parts[1] = parts[1].padEnd(3, '0');
-                // Trim if too long
-                parts[1] = parts[1].substring(0, 3);
-                return parts.join('.');
+                // For results: 3 decimal places
+                const rounded = Math.round(num * 1000) / 1000;
+                
+                // Format with thousands separators
+                const parts = rounded.toString().split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                
+                // Ensure 3 decimal places
+                if (parts.length === 1) {
+                    return parts[0] + '.000';
+                } else {
+                    // Pad with zeros if needed
+                    parts[1] = parts[1].padEnd(3, '0');
+                    // Trim if too long
+                    parts[1] = parts[1].substring(0, 3);
+                    return parts.join('.');
+                }
             }
         }
 
@@ -437,14 +444,14 @@
         // Update input formatting on blur
         resourceAmount.addEventListener('blur', function() {
             const value = parseFormattedNumber(this.value);
-            this.value = formatNumber(value);
+            this.value = formatNumber(value, true);
             calculateConversion();
         });
 
         // Allow only numbers and decimal separator on input
         resourceAmount.addEventListener('input', function(e) {
-            // Allow numbers, space (for formatting), and decimal separator
-            this.value = this.value.replace(/[^\d\s.,]/g, '');
+            // Allow only integers (no decimal separator)
+            this.value = this.value.replace(/[^\d\s]/g, '');
             calculateConversion();
         });
 
@@ -483,7 +490,7 @@
             resultDescription.textContent = `${fromName} → ${toName}`;
             
             // Update formula
-            originalAmount.textContent = formatNumber(amount);
+            originalAmount.textContent = formatNumber(amount, true);
             fromMultiplier.textContent = formatNumber(fromMultiplierValue);
             toMultiplier.textContent = formatNumber(toMultiplierValue);
             elementsAmount.textContent = formatNumber(elementsAmountValue);
@@ -498,7 +505,7 @@
         resourceAmount.addEventListener('input', calculateConversion);
         
         // Initialize with default values
-        resourceAmount.value = formatNumber(1);
+        resourceAmount.value = formatNumber(1, true);
         
         // Set default selections
         if (resources.length >= 2) {
