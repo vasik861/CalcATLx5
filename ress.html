@@ -121,71 +121,101 @@
             padding: 20px;
             border-radius: 8px;
             margin-top: 20px;
+            border: 1px solid #333;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .form-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             color: #bb86fc;
+            font-weight: 500;
+            font-size: 15px;
         }
         .form-row {
             display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
+            gap: 20px;
+            margin-bottom: 20px;
         }
         .form-row .form-group {
             flex: 1;
             margin-bottom: 0;
         }
         .converter-result {
-            background: #333;
+            background: #2c2c2c;
             padding: 20px;
             border-radius: 4px;
-            margin-top: 20px;
-            border-left: 4px solid #7c4dff;
+            margin-top: 25px;
+            border: 1px solid #444;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        .result-header {
+            border-bottom: 1px solid #444;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .result-title {
+            color: #7c4dff;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        .result-subtitle {
+            color: #aaa;
+            font-size: 14px;
         }
         .result-main {
             text-align: center;
-            margin-bottom: 15px;
+            padding: 15px;
+            background: #1e1e1e;
+            border-radius: 4px;
+            margin-bottom: 20px;
         }
         .result-value {
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             color: #bb86fc;
             margin: 10px 0;
+            font-family: monospace;
         }
         .result-label {
             color: #e0e0e0;
-            opacity: 0.8;
-            font-size: 14px;
+            opacity: 0.9;
+            font-size: 15px;
         }
         .result-details {
-            background: #2c2c2c;
-            padding: 15px;
+            background: #1e1e1e;
+            padding: 20px;
             border-radius: 4px;
             margin-top: 15px;
+            border: 1px solid #333;
         }
         .formula {
-            font-family: monospace;
-            background: #1a1a1a;
-            padding: 10px;
+            font-family: 'Roboto Mono', monospace;
+            background: #121212;
+            padding: 12px;
             border-radius: 4px;
-            margin: 10px 0;
+            margin: 12px 0;
             border-left: 3px solid #bb86fc;
+            color: #e0e0e0;
+            font-size: 14px;
+            line-height: 1.5;
         }
         .intermediate-result {
             color: #7c4dff;
             font-weight: bold;
+            background: rgba(124, 77, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 3px;
         }
         .calculation-steps {
             margin-top: 15px;
         }
         .calculation-step {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #444;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #333;
         }
         .calculation-step:last-child {
             border-bottom: none;
@@ -194,7 +224,38 @@
         }
         .step-label {
             color: #bb86fc;
-            margin-right: 5px;
+            margin-right: 8px;
+            font-weight: 500;
+            display: inline-block;
+            min-width: 180px;
+        }
+        .step-value {
+            color: #e0e0e0;
+            font-weight: 500;
+        }
+        .step-resource {
+            color: #aaa;
+            font-style: italic;
+        }
+        .conversion-arrow {
+            text-align: center;
+            margin: 10px 0;
+            color: #7c4dff;
+            font-size: 20px;
+        }
+        .converter-input-group {
+            position: relative;
+        }
+        .converter-input-group input {
+            padding-right: 40px;
+        }
+        .input-unit {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #aaa;
+            font-size: 14px;
         }
 
         @media (max-width: 768px) {
@@ -211,7 +272,7 @@
             }
             .form-row {
                 flex-direction: column;
-                gap: 10px;
+                gap: 15px;
             }
             .output-item {
                 flex-direction: column;
@@ -222,6 +283,9 @@
             }
             .result-value {
                 font-size: 24px;
+            }
+            .step-label {
+                min-width: 140px;
             }
         }
     </style>
@@ -311,7 +375,7 @@
             <div class="converter-form">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="from-resource">Исходный ресурс:</label>
+                        <label for="from-resource">Исходный ресурс</label>
                         <select id="from-resource" class="searchable">
                             <option value="">Выберите исходный ресурс...</option>
                             <!-- Options will be populated by JavaScript -->
@@ -319,7 +383,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="to-resource">Целевой ресурс:</label>
+                        <label for="to-resource">Целевой ресурс</label>
                         <select id="to-resource" class="searchable">
                             <option value="">Выберите целевой ресурс...</option>
                             <!-- Options will be populated by JavaScript -->
@@ -328,44 +392,72 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="resource-amount">Количество исходного ресурса:</label>
-                    <input type="text" id="resource-amount" class="converter-input" placeholder="0" value="1">
+                    <label for="resource-amount">Количество исходного ресурса</label>
+                    <div class="converter-input-group">
+                        <input type="text" id="resource-amount" class="converter-input" placeholder="0" value="1">
+                        <span class="input-unit">ед.</span>
+                    </div>
                 </div>
                 
                 <div class="converter-result" id="conversion-result" style="display: none;">
-                    <div class="result-main">
-                        <div class="result-label">Результат конвертации:</div>
-                        <div class="result-value" id="result-value">0</div>
-                        <div class="result-label">
-                            <span id="from-resource-name"></span> → <span id="to-resource-name"></span>
+                    <div class="result-header">
+                        <div class="result-title">Результат конвертации</div>
+                        <div class="result-subtitle" id="conversion-description">
+                            Преобразование ресурсов через элементы
                         </div>
                     </div>
+                    
+                    <div class="result-main">
+                        <div class="result-value" id="result-value">0</div>
+                        <div class="result-label">
+                            <span id="to-resource-name" class="step-resource">Целевой ресурс</span>
+                        </div>
+                    </div>
+                    
+                    <div class="conversion-arrow">↕</div>
                     
                     <div class="result-details">
                         <div class="calculation-steps">
                             <div class="calculation-step">
-                                <span class="step-label">Исходное количество:</span>
-                                <span id="step-original-amount">0</span> <span id="step-from-resource"></span>
-                            </div>
-                            <div class="calculation-step">
-                                <span class="step-label">Перевод в элементы:</span>
-                                <span id="step-to-elements">0</span> элементов
+                                <div>
+                                    <span class="step-label">Исходный ресурс:</span>
+                                    <span class="step-value" id="step-original-amount">0</span>
+                                    <span class="step-resource" id="step-from-resource">ед.</span>
+                                </div>
                                 <div class="formula">
-                                    Исходный ресурс ÷ Множитель исходного ресурса = 
+                                    Перевод в элементы: <br>
+                                    <span id="step-from-resource-name"></span> ÷ 
+                                    <span id="step-from-multiplier">0</span> = 
                                     <span class="intermediate-result" id="intermediate-elements">0</span> элементов
                                 </div>
                             </div>
+                            
                             <div class="calculation-step">
-                                <span class="step-label">Перевод в целевой ресурс:</span>
-                                <span id="step-to-resource">0</span> <span id="step-to-resource-name"></span>
-                                <div class="formula">
-                                    Элементы × Множитель целевого ресурса = 
-                                    <span class="intermediate-result" id="intermediate-result">0</span>
+                                <div>
+                                    <span class="step-label">Промежуточный результат:</span>
+                                    <span class="step-value" id="step-to-elements">0</span>
+                                    <span class="step-resource">элементов</span>
                                 </div>
                             </div>
+                            
                             <div class="calculation-step">
-                                <span class="step-label">Общая формула:</span>
+                                <div>
+                                    <span class="step-label">Целевой ресурс:</span>
+                                    <span class="step-value" id="step-to-resource">0</span>
+                                    <span class="step-resource" id="step-to-resource-name">ед.</span>
+                                </div>
                                 <div class="formula">
+                                    Перевод из элементов: <br>
+                                    <span id="step-to-elements-value">0</span> элементов × 
+                                    <span id="step-to-multiplier">0</span> = 
+                                    <span class="intermediate-result" id="intermediate-result">0</span>
+                                    <span id="step-final-resource-name"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="calculation-step">
+                                <div class="formula">
+                                    <strong>Общая формула:</strong><br>
                                     Результат = (Количество исходного ресурса ÷ Множитель исходного ресурса) × Множитель целевого ресурса
                                 </div>
                             </div>
@@ -463,10 +555,13 @@
         // Format input with thousands separators
         function formatNumber(num) {
             if (num === 0) return '0';
-            return num.toLocaleString('ru-RU', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 3
-            }).replace(',', '.');
+            const numStr = num.toString();
+            if (numStr.includes('.')) {
+                const parts = numStr.split('.');
+                parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                return parts.join('.');
+            }
+            return numStr.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
         }
 
         // Parse formatted number
@@ -479,15 +574,20 @@
         const resourceAmount = document.getElementById('resource-amount');
         const conversionResult = document.getElementById('conversion-result');
         const resultValue = document.getElementById('result-value');
-        const fromResourceName = document.getElementById('from-resource-name');
         const toResourceName = document.getElementById('to-resource-name');
+        const conversionDescription = document.getElementById('conversion-description');
         
         // Calculation step elements
         const stepOriginalAmount = document.getElementById('step-original-amount');
         const stepFromResource = document.getElementById('step-from-resource');
+        const stepFromResourceName = document.getElementById('step-from-resource-name');
+        const stepFromMultiplier = document.getElementById('step-from-multiplier');
         const stepToElements = document.getElementById('step-to-elements');
+        const stepToElementsValue = document.getElementById('step-to-elements-value');
         const stepToResource = document.getElementById('step-to-resource');
         const stepToResourceName = document.getElementById('step-to-resource-name');
+        const stepToMultiplier = document.getElementById('step-to-multiplier');
+        const stepFinalResourceName = document.getElementById('step-final-resource-name');
         const intermediateElements = document.getElementById('intermediate-elements');
         const intermediateResult = document.getElementById('intermediate-result');
 
@@ -511,16 +611,22 @@
             return selectedOption ? selectedOption.getAttribute('data-name') : '';
         }
 
+        // Get resource multiplier from select
+        function getResourceMultiplier(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            return selectedOption ? parseFloat(selectedOption.value) : 0;
+        }
+
         // Calculate conversion between resources
         function calculateConversion() {
-            const fromMultiplier = parseFloat(fromResourceSelect.value);
-            const toMultiplier = parseFloat(toResourceSelect.value);
+            const fromMultiplier = getResourceMultiplier(fromResourceSelect);
+            const toMultiplier = getResourceMultiplier(toResourceSelect);
             const amount = parseFormattedNumber(resourceAmount.value);
             
             const fromName = getResourceName(fromResourceSelect);
             const toName = getResourceName(toResourceSelect);
             
-            if (!fromMultiplier || !toMultiplier || isNaN(amount) || amount <= 0) {
+            if (!fromMultiplier || !toMultiplier || isNaN(amount) || amount <= 0 || !fromName || !toName) {
                 conversionResult.style.display = 'none';
                 return;
             }
@@ -531,29 +637,48 @@
             
             // Update main result
             resultValue.textContent = formatNumber(resultAmount);
-            fromResourceName.textContent = fromName;
             toResourceName.textContent = toName;
+            conversionDescription.textContent = `${fromName} → Элементы → ${toName}`;
             
             // Update calculation steps
             stepOriginalAmount.textContent = formatNumber(amount);
             stepFromResource.textContent = fromName;
+            stepFromResourceName.textContent = fromName;
+            stepFromMultiplier.textContent = formatNumber(fromMultiplier);
             stepToElements.textContent = formatNumber(elementsAmount);
+            stepToElementsValue.textContent = formatNumber(elementsAmount);
             stepToResource.textContent = formatNumber(resultAmount);
             stepToResourceName.textContent = toName;
+            stepToMultiplier.textContent = formatNumber(toMultiplier);
+            stepFinalResourceName.textContent = toName;
             intermediateElements.textContent = formatNumber(elementsAmount);
             intermediateResult.textContent = formatNumber(resultAmount);
             
-            // Update formula with actual values
-            const formulaElement = document.querySelector('.formula:nth-of-type(3)');
-            if (formulaElement) {
-                formulaElement.innerHTML = `
-                    Элементы × Множитель целевого ресурса = <br>
-                    ${formatNumber(elementsAmount)} × ${toMultiplier} = 
-                    <span class="intermediate-result">${formatNumber(resultAmount)}</span>
+            // Update formula details
+            updateFormulaDetails(amount, fromMultiplier, toMultiplier, elementsAmount, resultAmount);
+            
+            conversionResult.style.display = 'block';
+        }
+
+        // Update formula with actual values
+        function updateFormulaDetails(amount, fromMultiplier, toMultiplier, elementsAmount, resultAmount) {
+            const formulaElements = document.querySelectorAll('.formula');
+            
+            if (formulaElements[0]) {
+                formulaElements[0].innerHTML = `
+                    Перевод в элементы: <br>
+                    ${formatNumber(amount)} ÷ ${formatNumber(fromMultiplier)} = 
+                    <span class="intermediate-result">${formatNumber(elementsAmount)}</span> элементов
                 `;
             }
             
-            conversionResult.style.display = 'block';
+            if (formulaElements[1]) {
+                formulaElements[1].innerHTML = `
+                    Перевод из элементов: <br>
+                    ${formatNumber(elementsAmount)} элементов × ${formatNumber(toMultiplier)} = 
+                    <span class="intermediate-result">${formatNumber(resultAmount)}</span> ${getResourceName(toResourceSelect)}
+                `;
+            }
         }
 
         // Add event listeners for calculation
