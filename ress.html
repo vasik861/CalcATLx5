@@ -193,6 +193,20 @@
         .swap-icon {
             font-size: 16px;
         }
+        .deal-forbidden {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #ff4444;
+            border-radius: 4px;
+            background: rgba(255, 68, 68, 0.1);
+            margin-top: 20px;
+        }
+        .deal-forbidden-text {
+            color: #ff4444;
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
 
         @media (max-width: 600px) {
             .container {
@@ -212,6 +226,9 @@
             }
             .output-item strong {
                 margin-bottom: 5px;
+            }
+            .deal-forbidden-text {
+                font-size: 16px;
             }
         }
     </style>
@@ -326,16 +343,10 @@
                 </div>
             </div>
             
-            <div class="converter-result" id="conversion-result" style="display: none;">
-                <div class="result-label">Результат конвертации:</div>
-                <div class="result-value" id="result-value">0</div>
-                <div class="result-label" id="result-description"></div>
-                
-                <div class="formula">
-                    Формула: (<span id="original-amount">0</span> ÷ <span id="from-multiplier">0</span>) × <span id="to-multiplier">0</span> = 
-                    <span class="intermediate-result" id="elements-amount">0</span> элемента → 
-                    <span class="intermediate-result" id="final-result">0</span>
-                </div>
+            <div class="converter-result" id="conversion-result" style="display: none;"></div>
+            
+            <div class="deal-forbidden" id="deal-forbidden" style="display: none;">
+                <p class="deal-forbidden-text">Сделка запрещена правилами проекта</p>
             </div>
         </div>
     </div>
@@ -465,30 +476,8 @@
         // Resource converter functionality
         const resourceAmount = document.getElementById('resource-amount');
         const conversionResult = document.getElementById('conversion-result');
-        const resultValue = document.getElementById('result-value');
-        const resultDescription = document.getElementById('result-description');
+        const dealForbidden = document.getElementById('deal-forbidden');
         
-        // Formula elements
-        const originalAmount = document.getElementById('original-amount');
-        const fromMultiplier = document.getElementById('from-multiplier');
-        const toMultiplier = document.getElementById('to-multiplier');
-        const elementsAmount = document.getElementById('elements-amount');
-        const finalResult = document.getElementById('final-result');
-
-        // Update input formatting on blur
-        resourceAmount.addEventListener('blur', function() {
-            const value = parseFormattedNumber(this.value);
-            this.value = formatNumber(value, true);
-            calculateConversion();
-        });
-
-        // Allow only numbers and decimal separator on input
-        resourceAmount.addEventListener('input', function(e) {
-            // Allow only integers (no decimal separator)
-            this.value = this.value.replace(/[^\d\s]/g, '');
-            calculateConversion();
-        });
-
         // Get resource name from select
         function getResourceName(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -535,6 +524,7 @@
             
             if (!fromMultiplierValue || !toMultiplierValue || isNaN(amount) || amount <= 0 || !fromName || !toName) {
                 conversionResult.style.display = 'none';
+                dealForbidden.style.display = 'none';
                 return;
             }
             
@@ -542,25 +532,54 @@
             const elementsAmountValue = amount / fromMultiplierValue;
             const resultAmount = elementsAmountValue * toMultiplierValue;
             
-            // Update main result (rounded to integer)
+            // Round to integer
             const roundedResult = Math.round(resultAmount);
-            resultValue.textContent = formatNumber(roundedResult);
-            resultDescription.textContent = `${fromName} → ${toName}`;
             
-            // Update formula
-            originalAmount.textContent = formatNumber(amount, true);
-            fromMultiplier.textContent = formatNumberForFormula(fromMultiplierValue);
-            toMultiplier.textContent = formatNumberForFormula(toMultiplierValue);
-            elementsAmount.textContent = formatNumberForFormula(elementsAmountValue);
-            finalResult.textContent = formatNumber(roundedResult);
-            
-            conversionResult.style.display = 'block';
+            // Check if result is 0
+            if (roundedResult === 0) {
+                // Show deal forbidden message
+                conversionResult.style.display = 'none';
+                dealForbidden.style.display = 'block';
+            } else {
+                // Show normal result
+                dealForbidden.style.display = 'none';
+                conversionResult.style.display = 'block';
+                
+                // Create result HTML
+                const resultHTML = `
+                    <div class="result-label">Результат конвертации:</div>
+                    <div class="result-value">${formatNumber(roundedResult)}</div>
+                    <div class="result-label">${fromName} → ${toName}</div>
+                    
+                    <div class="formula">
+                        Формула: (${formatNumber(amount, true)} ÷ ${formatNumberForFormula(fromMultiplierValue)}) × ${formatNumberForFormula(toMultiplierValue)} = 
+                        <span class="intermediate-result">${formatNumberForFormula(elementsAmountValue)}</span> элементов → 
+                        <span class="intermediate-result">${formatNumber(roundedResult)}</span>
+                    </div>
+                `;
+                
+                conversionResult.innerHTML = resultHTML;
+            }
         }
 
         // Add event listeners for calculation
         fromResourceSelect.addEventListener('change', calculateConversion);
         toResourceSelect.addEventListener('change', calculateConversion);
         resourceAmount.addEventListener('input', calculateConversion);
+        
+        // Update input formatting on blur
+        resourceAmount.addEventListener('blur', function() {
+            const value = parseFormattedNumber(this.value);
+            this.value = formatNumber(value, true);
+            calculateConversion();
+        });
+
+        // Allow only numbers and decimal separator on input
+        resourceAmount.addEventListener('input', function(e) {
+            // Allow only integers (no decimal separator)
+            this.value = this.value.replace(/[^\d\s]/g, '');
+            calculateConversion();
+        });
         
         // Initialize with default values
         resourceAmount.value = formatNumber(1, true);
