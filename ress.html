@@ -8,349 +8,182 @@
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background: #111111;
-            color: #f0f0f0;
+            background: #121212;
+            color: #e0e0e0;
             margin: 0;
             padding: 0;
-            min-height: 100vh;
         }
         .container {
-            max-width: 900px;
+            max-width: 800px;
             margin: 20px auto;
             padding: 20px;
-            background: #1a1a1a;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-            border: 1px solid #333;
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
         }
         h1 {
             text-align: center;
-            color: #f0f0f0;
-            margin-bottom: 30px;
-            font-size: 28px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        h2 {
-            color: #f0f0f0;
-            margin-top: 0;
-            font-weight: 500;
-            border-bottom: 2px solid #444;
-            padding-bottom: 10px;
+            color: #bb86fc;
         }
         .el__logo{
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .el__logo img{
-            width: 180px;
-            filter: brightness(0.9);
+            width: 300px;
         }
         .tabs {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            margin-bottom: 30px;
-            background: #222;
-            border-radius: 8px;
-            padding: 5px;
-            border: 1px solid #333;
+            margin-bottom: 20px;
         }
         .tab {
-            padding: 12px 25px;
+            padding: 10px 20px;
             cursor: pointer;
-            background: transparent;
-            border-radius: 6px;
-            margin: 3px;
-            transition: all 0.3s;
-            color: #aaa;
-            font-weight: 500;
-            flex: 1;
-            text-align: center;
-            min-width: 150px;
+            background: #2c2c2c;
+            border-radius: 4px;
+            margin: 5px;
+            transition: background 0.3s;
+            color: #e0e0e0;
         }
         .tab.active {
-            background: #333;
-            color: #f0f0f0;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            background: #7c4dff;
+            color: #121212;
         }
         .tab:hover {
-            background: #2a2a2a;
-            color: #f0f0f0;
+            background: #3a3a3a;
         }
         .content {
             display: none;
-            animation: fadeIn 0.3s ease;
         }
         .content.active {
             display: block;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
         .searchable {
             position: relative;
-            margin-bottom: 20px;
         }
         .searchable input, .searchable select {
             width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 15px;
-            border: 1px solid #444;
-            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #333;
+            border-radius: 4px;
             font-size: 16px;
-            background: #222;
-            color: #f0f0f0;
+            background: #2c2c2c;
+            color: #e0e0e0;
             box-sizing: border-box;
-            transition: border-color 0.3s;
         }
-        .searchable input:focus, .searchable select:focus {
-            outline: none;
-            border-color: #555;
-        }
-        .converter-row {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .converter-row > div {
-            flex: 1;
-            min-width: 200px;
-        }
-        .converter-row label {
-            display: block;
-            margin-bottom: 8px;
-            color: #ccc;
-            font-size: 14px;
-        }
-        .converter-arrow {
-            font-size: 24px;
-            color: #666;
-            text-align: center;
-            min-width: 40px;
-        }
-        .converter-result {
-            margin-top: 25px;
-            padding: 25px;
-            border: 2px solid #444;
-            border-radius: 8px;
-            background: #222;
-            text-align: center;
-            font-size: 1.2em;
-            border-left: 4px solid #555;
-        }
-        .converter-result span {
-            color: #f0f0f0;
-            font-weight: bold;
-            font-size: 1.4em;
+        .converter-input {
+            text-align: right;
+            font-family: monospace;
+            letter-spacing: 1px;
         }
         .output {
-            padding: 20px;
+            padding: 15px;
             border: 1px solid #333;
-            border-radius: 6px;
-            background: #222;
-            margin-top: 15px;
+            border-radius: 4px;
+            background: #2c2c2c;
+            margin-top: 10px;
         }
         .output-item {
             display: flex;
             justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #333;
+            padding: 10px 0;
+            border-bottom: 1px solid #444;
         }
         .output-item:last-child {
             border-bottom: none;
         }
         .output-item strong {
-            color: #f0f0f0;
+            color: #7c4dff;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
-            color: #f0f0f0;
-            background: #222;
-            border-radius: 6px;
-            overflow: hidden;
-            border: 1px solid #333;
+            color: #e0e0e0;
         }
         table th, table td {
-            border: 1px solid #333;
-            padding: 12px 15px;
+            border: 1px solid #444;
+            padding: 8px;
             text-align: left;
         }
         table th {
-            background: #2a2a2a;
+            background: #7c4dff;
             font-weight: 500;
-            color: #f0f0f0;
-            border-bottom: 2px solid #444;
-        }
-        table tr:nth-child(even) {
-            background: #252525;
-        }
-        table tr:hover {
-            background: #2d2d2d;
         }
         .table-wrapper {
             overflow-x: auto;
-            border-radius: 6px;
-            border: 1px solid #333;
         }
-        .formatted-input {
-            text-align: right;
-            font-family: 'Roboto Mono', monospace;
-        }
-        .converter-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 15px;
-        }
-        .converter-buttons button {
-            padding: 12px 25px;
-            background: #333;
-            color: #f0f0f0;
-            border: 1px solid #444;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-            flex: 1;
-            font-weight: 500;
-        }
-        .converter-buttons button:hover {
-            background: #3a3a3a;
-            border-color: #555;
-        }
-        .swap-button {
-            background: #222;
-            border: 1px solid #444;
-            color: #aaa;
-            padding: 8px 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        .swap-button:hover {
-            background: #333;
-            color: #f0f0f0;
-            border-color: #555;
-        }
-        .converter-info {
-            margin-top: 25px;
+        .converter-form {
+            background: #2c2c2c;
             padding: 20px;
-            background: #222;
-            border-radius: 6px;
-            border: 1px solid #333;
-            color: #ccc;
-            font-size: 14px;
+            border-radius: 8px;
+            margin-top: 20px;
         }
-        .converter-info h4 {
-            color: #f0f0f0;
-            margin-top: 0;
+        .form-group {
             margin-bottom: 15px;
-            font-weight: 500;
         }
-        .converter-info p {
-            margin: 10px 0;
-            line-height: 1.5;
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #bb86fc;
         }
-        .converter-info code {
-            background: #2a2a2a;
-            padding: 3px 6px;
+        .converter-result {
+            background: #333;
+            padding: 15px;
             border-radius: 4px;
-            font-family: 'Roboto Mono', monospace;
-            color: #aaa;
-            border: 1px solid #333;
+            margin-top: 20px;
+            border-left: 4px solid #7c4dff;
         }
-        .details {
-            color: #999;
-            font-size: 0.9em;
-            margin-top: 5px;
-        }
-        .center-text {
+        .result-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #bb86fc;
             text-align: center;
-            color: #999;
-            margin-bottom: 25px;
-            line-height: 1.6;
+            margin: 10px 0;
+        }
+        .result-label {
+            text-align: center;
+            color: #e0e0e0;
+            opacity: 0.8;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             .container {
                 margin: 10px;
                 padding: 15px;
-                border-radius: 8px;
             }
             .tabs {
                 flex-direction: column;
                 align-items: stretch;
-                padding: 3px;
             }
             .tab {
-                min-width: 100%;
-                margin: 2px 0;
-                padding: 10px;
+                text-align: center;
             }
             .output-item {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 5px;
             }
-            .converter-row {
-                flex-direction: column;
-                gap: 20px;
-            }
-            .converter-row > div {
-                width: 100%;
-                min-width: unset;
-            }
-            .converter-arrow {
-                transform: rotate(90deg);
-                margin: 10px 0;
-            }
-            .converter-buttons {
-                flex-direction: column;
-            }
-            .converter-buttons button {
-                width: 100%;
-            }
-            table th, table td {
-                padding: 8px 10px;
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 22px;
-            }
-            .el__logo img {
-                width: 150px;
-            }
-            .converter-result {
-                padding: 15px;
-                font-size: 1em;
+            .output-item strong {
+                margin-bottom: 5px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="el__logo"><a href="index.html"><img src="min_logo.png" /></a></div>
-        <h1>Ресурсы ARK: Survival Evolved</h1>
-        
+        <div class = "el__logo"><a href = "index.html"><img src = "min_logo.png" /></a></div>
         <div class="tabs">
             <div class="tab active" data-target="structures-tab">Структуры</div>
+            <div class="tab" data-target="multipliers-tab">Множитель за 1 элемент</div>
             <div class="tab" data-target="converter-tab">Конвертер ресурсов</div>
-            <div class="tab" data-target="multipliers-tab">Таблица множителей</div>
         </div>
 
         <div id="structures-tab" class="content active">
             <div class="searchable">
-                <input type="text" id="search-input" placeholder="Фильтр списка структур" class="formatted-input">
+                <input type="text" id="search-input" placeholder="Фильтр списка структур">
                 <select id="structure-select">
                     <option value="">Выберите структуру...</option>
                 </select>
@@ -358,65 +191,17 @@
             <div id="output" class="output" style="display: none;"></div>
         </div>
 
-        <div id="converter-tab" class="content">
-            <h2>Конвертер ресурсов</h2>
-            <p class="center-text">
-                Конвертация между любыми ресурсами из таблицы множителей.<br>
-                Все ресурсы конвертируются через элемент как общий эквивалент.
-            </p>
-            
-            <div class="converter-row">
-                <div>
-                    <label for="converter-amount">Количество:</label>
-                    <input type="text" id="converter-amount" placeholder="Введите количество" class="formatted-input" value="1">
-                </div>
-                <div>
-                    <label for="converter-from">Из ресурса:</label>
-                    <select id="converter-from">
-                        <option value="">Выберите ресурс...</option>
-                    </select>
-                </div>
-                <div style="text-align: center; min-width: 60px;">
-                    <button class="swap-button" id="swap-resources" title="Поменять местами">⇄ Обмен</button>
-                </div>
-                <div>
-                    <label for="converter-to">В ресурс:</label>
-                    <select id="converter-to">
-                        <option value="">Выберите ресурс...</option>
-                    </select>
-                </div>
-            </div>
-            
-            <div class="converter-buttons">
-                <button id="convert-resources-btn">Конвертировать</button>
-                <button id="clear-converter-btn">Сбросить</button>
-            </div>
-            
-            <div id="converter-result" class="converter-result" style="display: none;">
-                <div id="result-text"></div>
-                <div class="details" id="conversion-details"></div>
-            </div>
-            
-            <div class="converter-info">
-                <h4>Как работает конвертация:</h4>
-                <p>Все ресурсы конвертируются через элемент как общий эквивалент:</p>
-                <p><strong>Ресурс A → Элемент → Ресурс B</strong></p>
-                <p>Формула: <code>(Количество A × Множитель B) ÷ Множитель A = Количество B</code></p>
-            </div>
-        </div>
-
         <div id="multipliers-tab" class="content">
-            <h2>Таблица множителей ресурсов</h2>
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th>Название ресурса</th>
+                            <th>Название ресурс</th>
                             <th>Множитель за 1 элемент</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>Аквалириум</td><td>5</td></tr>
+                        <tr><td>Аквариум</td><td>5</td></tr>
                         <tr><td>Баранина (сырая)</td><td>60</td></tr>
                         <tr><td>Баранина (жареная)</td><td>56</td></tr>
                         <tr><td>Барнакле</td><td>4</td></tr>
@@ -441,7 +226,7 @@
                         <tr><td>Мутаген</td><td>0.003</td></tr>
                         <tr><td>Мясо (сырое)</td><td>100</td></tr>
                         <tr><td>Мясо (жареное)</td><td>96</td></tr>
-                        <tr><td>Мясо (валеное)</td><td>90</td></tr>
+                        <tr><td>Мясо (вареное)</td><td>90</td></tr>
                         <tr><td>Наркотики, Древесный сок</td><td>30</td></tr>
                         <tr><td>Нефть</td><td>30</td></tr>
                         <tr><td>Обсидиан</td><td>30</td></tr>
@@ -467,289 +252,169 @@
                 </table>
             </div>
         </div>
+
+        <div id="converter-tab" class="content">
+            <div class="converter-form">
+                <div class="form-group">
+                    <label for="resource-type">Выберите ресурс:</label>
+                    <select id="resource-type" class="searchable">
+                        <option value="">Выберите ресурс для конвертации...</option>
+                        <option value="5">Аквариум</option>
+                        <option value="60">Баранина (сырая)</option>
+                        <option value="56">Баранина (жареная)</option>
+                        <option value="4">Барнакле</option>
+                        <option value="20">Бензин</option>
+                        <option value="20">Биотоксин</option>
+                        <option value="1200">Волокно</option>
+                        <option value="0.05">Волосы</option>
+                        <option value="120">Дерево</option>
+                        <option value="80">Жемчуг (белый)</option>
+                        <option value="4">Желчь аммонита</option>
+                        <option value="16">Закаленная сталь</option>
+                        <option value="16">Зелёный кристалл</option>
+                        <option value="120">Камень</option>
+                        <option value="80">Кожа</option>
+                        <option value="8">Красный кристалл</option>
+                        <option value="240">Кремень</option>
+                        <option value="20">Кристалл</option>
+                        <option value="60">Марганец</option>
+                        <option value="40">Металл (слитки)</option>
+                        <option value="80">Металл (сырой)</option>
+                        <option value="0.4">Мутагель</option>
+                        <option value="0.003">Мутаген</option>
+                        <option value="100">Мясо (сырое)</option>
+                        <option value="96">Мясо (жареное)</option>
+                        <option value="90">Мясо (вареное)</option>
+                        <option value="30">Наркотики, Древесный сок</option>
+                        <option value="30">Нефть</option>
+                        <option value="30">Обсидиан</option>
+                        <option value="40">Полимер (крафт)</option>
+                        <option value="46">Полимер (органический)</option>
+                        <option value="60">Протухшее мясо</option>
+                        <option value="60">Первосортка (сырая)</option>
+                        <option value="56">Первосортка (жареная)</option>
+                        <option value="50">Первосортка (вяленая)</option>
+                        <option value="30">Рыбья чешуя</option>
+                        <option value="80">Рыба (сырая)</option>
+                        <option value="76">Рыба (жареная)</option>
+                        <option value="12">Синий кристалл</option>
+                        <option value="600">Солома</option>
+                        <option value="20">Сжиженый газ</option>
+                        <option value="60">Хитин</option>
+                        <option value="30">Цементная паста</option>
+                        <option value="8">Чёрный жемчуг</option>
+                        <option value="100">Элемент (осколки)</option>
+                        <option value="1000">Элемент (пыль)</option>
+                        <option value="1">Элемент</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="resource-amount">Количество ресурса:</label>
+                    <input type="text" id="resource-amount" class="converter-input" placeholder="0" value="1">
+                </div>
+                
+                <div class="form-group">
+                    <label for="conversion-direction">Направление конвертации:</label>
+                    <select id="conversion-direction" class="searchable">
+                        <option value="to-element">Ресурс → Элементы</option>
+                        <option value="from-element">Элементы → Ресурс</option>
+                    </select>
+                </div>
+                
+                <div class="converter-result" id="conversion-result" style="display: none;">
+                    <div class="result-label">Результат конвертации:</div>
+                    <div class="result-value" id="result-value">0</div>
+                    <div class="result-label" id="result-description"></div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Данные множителей из таблицы
-        const multipliersData = [
-            {name: "Аквалириум", multiplier: 5},
-            {name: "Баранина (сырая)", multiplier: 60},
-            {name: "Баранина (жареная)", multiplier: 56},
-            {name: "Барнакле", multiplier: 4},
-            {name: "Бензин", multiplier: 20},
-            {name: "Биотоксин", multiplier: 20},
-            {name: "Волокно", multiplier: 1200},
-            {name: "Волосы", multiplier: 0.05},
-            {name: "Дерево", multiplier: 120},
-            {name: "Жемчуг (белый)", multiplier: 80},
-            {name: "Желчь аммонита", multiplier: 4},
-            {name: "Закаленная сталь", multiplier: 16},
-            {name: "Зелёный кристалл", multiplier: 16},
-            {name: "Камень", multiplier: 120},
-            {name: "Кожа", multiplier: 80},
-            {name: "Красный кристалл", multiplier: 8},
-            {name: "Кремень", multiplier: 240},
-            {name: "Кристалл", multiplier: 20},
-            {name: "Марганец", multiplier: 60},
-            {name: "Металл (слитки)", multiplier: 40},
-            {name: "Металл (сырой)", multiplier: 80},
-            {name: "Мутагель", multiplier: 0.4},
-            {name: "Мутаген", multiplier: 0.003},
-            {name: "Мясо (сырое)", multiplier: 100},
-            {name: "Мясо (жареное)", multiplier: 96},
-            {name: "Мясо (валеное)", multiplier: 90},
-            {name: "Наркотики, Древесный сок", multiplier: 30},
-            {name: "Нефть", multiplier: 30},
-            {name: "Обсидиан", multiplier: 30},
-            {name: "Полимер (крафт)", multiplier: 40},
-            {name: "Полимер (органический)", multiplier: 46},
-            {name: "Протухшее мясо", multiplier: 60},
-            {name: "Первосортка (сырая)", multiplier: 60},
-            {name: "Первосортка (жареная)", multiplier: 56},
-            {name: "Первосортка (вяленая)", multiplier: 50},
-            {name: "Рыбья чешуя", multiplier: 30},
-            {name: "Рыба (сырая)", multiplier: 80},
-            {name: "Рыба (жареная)", multiplier: 76},
-            {name: "Синий кристалл", multiplier: 12},
-            {name: "Солома", multiplier: 600},
-            {name: "Сжиженый газ", multiplier: 20},
-            {name: "Хитин", multiplier: 60},
-            {name: "Цементная паста", multiplier: 30},
-            {name: "Чёрный жемчуг", multiplier: 8},
-            {name: "Элемент (осколки)", multiplier: 100},
-            {name: "Элемент (пыль)", multiplier: 1000},
-            {name: "Элемент", multiplier: 1}
-        ];
-
-        // Функция для форматирования чисел с разделителями тысяч
-        function formatNumber(number) {
-            if (number === null || number === undefined) return '0';
-            
-            const num = parseFloat(number);
-            if (isNaN(num)) return '0';
-            
-            // Определяем сколько знаков после запятой показывать
-            let decimals = 6;
-            if (num >= 1000) decimals = 2;
-            if (num >= 10000) decimals = 0;
-            if (num < 0.000001) decimals = 8;
-            
-            const parts = num.toFixed(decimals).split('.');
-            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-            
-            // Убираем лишние нули в конце дробной части
-            if (parts[1]) {
-                parts[1] = parts[1].replace(/0+$/, '');
-                if (!parts[1]) {
-                    return parts[0];
-                }
-            }
-            
-            return parts.join('.');
-        }
-
-        // Функция для парсинга форматированных чисел
-        function parseFormattedNumber(str) {
-            if (!str) return 0;
-            const cleaned = str.toString().replace(/\s/g, '').replace(',', '.');
-            const num = parseFloat(cleaned);
-            return isNaN(num) ? 0 : num;
-        }
-
-        // Функция для обновления отформатированного значения в поле ввода
-        function updateFormattedInput(input) {
-            const cursorPosition = input.selectionStart;
-            const originalValue = input.value;
-            const unformattedValue = originalValue.replace(/\s/g, '');
-            
-            // Сохраняем только цифры и точку
-            const numericValue = unformattedValue.replace(/[^\d.]/g, '');
-            
-            // Если значение изменилось, обновляем
-            if (numericValue !== unformattedValue) {
-                input.value = numericValue;
-            }
-            
-            // Форматируем число
-            if (numericValue && numericValue !== '0') {
-                const parts = numericValue.split('.');
-                parts[0] = formatNumber(parts[0]);
-                input.value = parts.join('.');
+        // Tab switching functionality
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
                 
-                // Восстанавливаем позицию курсора
-                const newCursorPosition = cursorPosition + (input.value.length - originalValue.length);
-                input.setSelectionRange(newCursorPosition, newCursorPosition);
-            }
-        }
-
-        // Функция для заполнения селектов ресурсами
-        function populateResourceSelects() {
-            const fromSelect = document.getElementById('converter-from');
-            const toSelect = document.getElementById('converter-to');
-            
-            // Очищаем селекты
-            fromSelect.innerHTML = '<option value="">Выберите ресурс...</option>';
-            toSelect.innerHTML = '<option value="">Выберите ресурс...</option>';
-            
-            // Заполняем ресурсами
-            multipliersData.forEach(resource => {
-                const optionFrom = document.createElement('option');
-                optionFrom.value = resource.multiplier;
-                optionFrom.textContent = resource.name;
-                optionFrom.dataset.name = resource.name;
-                
-                const optionTo = optionFrom.cloneNode(true);
-                
-                fromSelect.appendChild(optionFrom);
-                toSelect.appendChild(optionTo);
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const target = tab.getAttribute('data-target');
+                document.getElementById(target).classList.add('active');
             });
-            
-            // Устанавливаем значения по умолчанию
-            fromSelect.value = 120; // Дерево
-            toSelect.value = 40;    // Металл (слитки)
+        });
+
+        // Resource converter functionality
+        const resourceAmount = document.getElementById('resource-amount');
+        const resourceType = document.getElementById('resource-type');
+        const conversionDirection = document.getElementById('conversion-direction');
+        const conversionResult = document.getElementById('conversion-result');
+        const resultValue = document.getElementById('result-value');
+        const resultDescription = document.getElementById('result-description');
+
+        // Format input with thousands separators
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
         }
 
-        // Функция для конвертации ресурсов
-        function convertResources() {
-            const amount = parseFormattedNumber(document.getElementById('converter-amount').value);
-            const fromMultiplier = parseFloat(document.getElementById('converter-from').value);
-            const toMultiplier = parseFloat(document.getElementById('converter-to').value);
+        // Parse formatted number
+        function parseFormattedNumber(str) {
+            return parseFloat(str.replace(/\s/g, '').replace(',', '.')) || 0;
+        }
+
+        // Update input formatting on blur
+        resourceAmount.addEventListener('blur', function() {
+            const value = parseFormattedNumber(this.value);
+            this.value = formatNumber(value);
+            calculateConversion();
+        });
+
+        // Allow only numbers and decimal separator on input
+        resourceAmount.addEventListener('input', function(e) {
+            // Allow numbers, space (for formatting), and decimal separator
+            this.value = this.value.replace(/[^\d\s.,]/g, '');
             
-            const fromSelect = document.getElementById('converter-from');
-            const toSelect = document.getElementById('converter-to');
-            const fromName = fromSelect.options[fromSelect.selectedIndex]?.dataset.name || '';
-            const toName = toSelect.options[toSelect.selectedIndex]?.dataset.name || '';
+            // Calculate on every change for real-time updates
+            calculateConversion();
+        });
+
+        // Calculate conversion
+        function calculateConversion() {
+            const multiplier = parseFloat(resourceType.value);
+            const amount = parseFormattedNumber(resourceAmount.value);
+            const direction = conversionDirection.value;
             
-            if (!amount || !fromMultiplier || !toMultiplier || !fromName || !toName) {
-                alert('Пожалуйста, заполните все поля и выберите ресурс');
+            if (!multiplier || isNaN(amount) || amount <= 0) {
+                conversionResult.style.display = 'none';
                 return;
             }
             
-            // Формула: (amount * toMultiplier) / fromMultiplier
-            const result = (amount * toMultiplier) / fromMultiplier;
+            let result, description;
             
-            // Вычисляем сколько элемент
-            const elements = amount / fromMultiplier;
+            if (direction === 'to-element') {
+                result = amount / multiplier;
+                description = `элементов из ${formatNumber(amount)} единиц ресурса`;
+            } else {
+                result = amount * multiplier;
+                description = `единиц ресурса из ${formatNumber(amount)} элементов`;
+            }
             
-            // Обновляем результат
-            const resultElement = document.getElementById('converter-result');
-            const resultText = document.getElementById('result-text');
-            const detailsText = document.getElementById('conversion-details');
-            
-            resultText.innerHTML = `
-                <span>${formatNumber(amount)} ${fromName} = ${formatNumber(result)} ${toName}</span>
-            `;
-            
-            detailsText.innerHTML = `
-                ${formatNumber(amount)} ${fromName} = ${formatNumber(elements)} Элемента<br>
-                ${formatNumber(elements)} Элемента = ${formatNumber(result)} ${toName}<br>
-                Коэффициент: 1 ${fromName} = ${formatNumber(toMultiplier / fromMultiplier)} ${toName}
-            `;
-            
-            resultElement.style.display = 'block';
+            resultValue.textContent = formatNumber(result.toFixed(3));
+            resultDescription.textContent = description;
+            conversionResult.style.display = 'block';
         }
 
-        // Функция для обмена ресурсов местами
-        function swapResources() {
-            const fromSelect = document.getElementById('converter-from');
-            const toSelect = document.getElementById('converter-to');
-            const amountInput = document.getElementById('converter-amount');
-            
-            const fromValue = fromSelect.value;
-            const fromIndex = fromSelect.selectedIndex;
-            const toValue = toSelect.value;
-            const toIndex = toSelect.selectedIndex;
-            
-            // Меняем местами значения
-            fromSelect.value = toValue;
-            toSelect.value = fromValue;
-            
-            // Меняем местами индексы
-            if (toSelect.options[fromIndex]) {
-                fromSelect.selectedIndex = fromIndex;
-            }
-            if (toSelect.options[toIndex]) {
-                toSelect.selectedIndex = toIndex;
-            }
-            
-            // Если есть результат, пересчитываем
-            if (amountInput.value && fromValue && toValue) {
-                convertResources();
-            }
-        }
-
-        // Инициализация при загрузке страницы
-        document.addEventListener('DOMContentLoaded', function() {
-            // Навигация по вкладкам
-            const tabs = document.querySelectorAll('.tab');
-            const contents = document.querySelectorAll('.content');
-            
-            tabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const target = tab.getAttribute('data-target');
-                    
-                    // Обновляем активные вкладки
-                    tabs.forEach(t => t.classList.remove('active'));
-                    contents.forEach(c => c.classList.remove('active'));
-                    
-                    tab.classList.add('active');
-                    document.getElementById(target).classList.add('active');
-                });
-            });
-
-            // Заполняем селекты ресурсами
-            populateResourceSelects();
-
-            // Обработчики для форматированного ввода
-            const amountInput = document.getElementById('converter-amount');
-            
-            amountInput.addEventListener('input', function() {
-                updateFormattedInput(this);
-                // Автоматическая конвертация при изменении количества
-                if (this.value && 
-                    document.getElementById('converter-from').value && 
-                    document.getElementById('converter-to').value) {
-                    convertResources();
-                }
-            });
-            
-            amountInput.addEventListener('blur', function() {
-                updateFormattedInput(this);
-            });
-
-            // Обработчики для конвертера
-            document.getElementById('convert-resources-btn').addEventListener('click', convertResources);
-            
-            document.getElementById('clear-converter-btn').addEventListener('click', function() {
-                document.getElementById('converter-amount').value = '1';
-                populateResourceSelects(); // Сбрасываем к значениям по умолчанию
-                document.getElementById('converter-result').style.display = 'none';
-                updateFormattedInput(amountInput);
-            });
-            
-            document.getElementById('swap-resources').addEventListener('click', swapResources);
-
-            // Автоматическая конвертация при изменении выбора ресурсов
-            ['converter-from', 'converter-to'].forEach(id => {
-                document.getElementById(id).addEventListener('change', function() {
-                    if (amountInput.value && 
-                        document.getElementById('converter-from').value && 
-                        document.getElementById('converter-to').value) {
-                        convertResources();
-                    }
-                });
-            });
-
-            // Форматируем начальное значение
-            updateFormattedInput(amountInput);
-            
-            // Делаем начальный расчет
-            if (amountInput.value && 
-                document.getElementById('converter-from').value && 
-                document.getElementById('converter-to').value) {
-                convertResources();
-            }
-        });
+        // Add event listeners for calculation
+        resourceType.addEventListener('change', calculateConversion);
+        conversionDirection.addEventListener('change', calculateConversion);
+        resourceAmount.addEventListener('input', calculateConversion);
+        
+        // Initialize with default value
+        resourceAmount.value = formatNumber(1);
+        calculateConversion();
     </script>
+    <script defer src="script_struct.js?v=1.0.0"></script>
 </body>
 </html>
