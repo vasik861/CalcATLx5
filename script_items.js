@@ -1,1 +1,52 @@
-function calculate(e){if(void 0!==e){e.target.id}$("#draft_limit").prop("checked")?$(".bl_qty_draft").show():$(".bl_qty_draft").hide();var t=parseInt(document.getElementById("qty").value);const a=calculateSumHaracter(),c=parseInt(document.getElementById("cluster").value);let r=0,l=1;document.querySelectorAll('input[name="rb"]').forEach((e=>{e.checked&&(l*=parseFloat(e.value)*c)})),document.querySelectorAll('input[name="draft"]').forEach((e=>{e.checked&&("draft_not_limit"==e.id?l*=parseFloat(e.value)*c:l*=parseFloat($("#qty_draft").val()))})),r=t*a*l;const n=r.toLocaleString("ru-RU");document.getElementById("result").textContent=`Итоговая цена в Элементе: ${n}`;const o={"Слиток металла/Полимер":8,"Дерево/Камень":24,"Чёрный жемчуг":1.6,"Кристалл":4,"Кожа":16,"Цементная паста":6,"Жемчуг":16,"Мутагель":.08,"Мутаген":6e-4},u=document.getElementById("resources");u.innerHTML="<h3>Итоговое значение в других ресурсах:</h3>",Object.keys(o).forEach((e=>{const t=(c*o[e]*r).toFixed(2),a=parseFloat(t).toLocaleString("ru-RU"),l=document.createElement("div");l.classList.add("resource-item"),l.innerHTML=`<div class = 'el_other_material__name'>${e}</div><div class = 'el_other_material__val'>${a}</div>`,u.appendChild(l)}))}function calculateSumHaracter(){const e=document.querySelectorAll('input[type="number"]');let t=0;return e.forEach((e=>{if("qty"===e.id)return;const a=parseFloat(e.value)||0;t+=a})),t}function resetRadio(e){return $("input:radio[name='"+e+"']").prop("checked",!1),calculate(),!1}document.querySelectorAll('input[type="number"]').forEach((e=>{e.addEventListener("input",calculate)})),document.querySelectorAll('input[type="checkbox"],input[type="radio"],select').forEach((e=>{e.addEventListener("change",calculate)})),calculate();
+// script_items.js
+$(document).ready(function() {
+    function calculate() {
+        if ($('#draft_limit').is(':checked')) {
+            $('.bl_qty_draft').show();
+        } else {
+            $('.bl_qty_draft').hide();
+        }
+
+        const qty = parseInt(document.getElementById('qty').value) || 0;
+        const cluster = CONFIG.CLUSTER;
+
+        let sum = 0;
+        document.querySelectorAll('input[type="number"]').forEach(el => {
+            if (el.id === 'qty') return;
+            sum += parseFloat(el.value) || 0;
+        });
+
+        let multiplier = 1;
+        document.querySelectorAll('input[name="rb"]:checked').forEach(el => {
+            multiplier *= parseFloat(el.value) * cluster;
+        });
+        document.querySelectorAll('input[name="draft"]:checked').forEach(el => {
+            if (el.id === 'draft_not_limit') {
+                multiplier *= parseFloat(el.value) * cluster;
+            } else if (el.id === 'draft_limit') {
+                const attempts = parseInt(document.getElementById('qty_draft').value) || 1;
+                multiplier *= attempts;
+            }
+        });
+
+        let price = qty * sum * multiplier;
+        if (price < 0) price = 0;
+
+        const formattedPrice = formatNumber(price);
+        document.getElementById('result').textContent = `Итоговая цена в Элементе: ${formattedPrice}`;
+        renderResourceList('resources', price, CONFIG.RESOURCE_MULTIPLIERS);
+    }
+
+    document.querySelectorAll('input[type="number"], input[type="checkbox"], input[type="radio"], select').forEach(el => {
+        el.addEventListener('input', calculate);
+        el.addEventListener('change', calculate);
+    });
+
+    calculate();
+});
+
+function resetRadio(name) {
+    document.querySelectorAll(`input[name="${name}"]`).forEach(el => el.checked = false);
+    document.querySelectorAll('input').forEach(el => el.dispatchEvent(new Event('change')));
+    return false;
+}

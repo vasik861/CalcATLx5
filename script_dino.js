@@ -1,1 +1,115 @@
-function calculate(e){if(void 0!==e){let t=e.target.id||"";console.log(t),"straider"!=t&&"lvl"!=t&&$("input:checkbox#straider").prop("checked",!1)}var t=parseInt(document.getElementById("lvl").value);const c=parseInt(document.getElementById("cluster").value),a=document.getElementById("e10"),l=document.getElementById("straider");(t<0||""==t||"e"==t||isNaN(t))&&(t=0,document.getElementById("lvl").value="");let n=0,r=1;document.querySelectorAll('input[name="rb"]').forEach((e=>{e.checked&&(r*=parseFloat(e.value)*c)})),document.querySelectorAll('input[name="re"]').forEach((e=>{e.checked&&(r*=parseFloat(e.value))})),a.checked&&(r*=parseFloat(a.value)),l.checked&&($("input:radio[name='rb']").prop("checked",!1),$("input:radio[name='re']").prop("checked",!1),$("input:checkbox#e10").prop("checked",!1),r=t>0&&t<75?105*c:t>=75&&t<155?204*c:t>=155&&t<301?630*c:0),r<=1&&(r=0),n=t*r,t>=1&&t<=5&&(n=10500),t>=6&&t<=9&&(n=3500);const o=n.toLocaleString("ru-RU");document.getElementById("result").textContent=`Итоговая цена в Элементе: ${o}`;const d={"Слиток металла/Полимер":8,"Дерево/Камень":24,"Чёрный жемчуг":1.6,"Кристалл":4,"Кожа":16,"Цементная паста":6,"Жемчуг":16,"Мутагель":.08,"Мутаген":6e-4},u=document.getElementById("resources");u.innerHTML="<h3>Итоговое значение в других ресурсах:</h3>",Object.keys(d).forEach((e=>{const t=(c*d[e]*n).toFixed(2),a=parseFloat(t).toLocaleString("ru-RU"),l=document.createElement("div");l.classList.add("resource-item"),l.innerHTML=`<div class = 'el_other_material__name'>${e}</div><div class = 'el_other_material__val'>${a}</div>`,u.appendChild(l)}))}function resetRadio(e){return $("input:radio[name='"+e+"']").prop("checked",!1),calculate(),!1}document.getElementById("lvl").addEventListener("input",calculate),document.querySelectorAll('input[type="checkbox"],input[type="radio"]').forEach((e=>{e.addEventListener("change",calculate)})),calculate();
+// script_dino.js
+$(document).ready(function() {
+    // Переменные для сохранения состояния перед включением Страйдера
+    let savedRadioRb = null;
+    let savedRadioRe = null;
+    let savedGigaCheck = false;
+
+    function calculate() {
+        let level = parseInt(document.getElementById('lvl').value);
+        if (isNaN(level) || level < 0) level = 0;
+        if (level === 0) document.getElementById('lvl').value = '';
+
+        const cluster = CONFIG.CLUSTER;
+        const isStraider = document.getElementById('straider').checked;
+        const gigaCheck = document.getElementById('e10');
+
+        let price = 0;
+
+        if (isStraider) {
+            // Сохраняем состояния перед сбросом
+            if (savedRadioRb === null) {
+                const rbChecked = document.querySelector('input[name="rb"]:checked');
+                savedRadioRb = rbChecked ? rbChecked.id : null;
+                const reChecked = document.querySelector('input[name="re"]:checked');
+                savedRadioRe = reChecked ? reChecked.id : null;
+                savedGigaCheck = gigaCheck.checked;
+            }
+
+            // Сбрасываем все радиокнопки и чекбокс гиги
+            document.querySelectorAll('input[name="rb"]').forEach(el => el.checked = false);
+            document.querySelectorAll('input[name="re"]').forEach(el => el.checked = false);
+            gigaCheck.checked = false;
+
+            // Расчёт цены Страйдера с учётом уровня
+            let basePrice = 0;
+            if (level >= 1 && level <= 74) {
+                basePrice = 105 * cluster;  // 105 × 5 = 525
+            } else if (level >= 75 && level <= 154) {
+                basePrice = 204 * cluster;  // 204 × 5 = 1020
+            } else if (level >= 155 && level <= 300) {
+                basePrice = 630 * cluster;  // 630 × 5 = 3150
+            } else {
+                basePrice = 0; // уровень вне допустимого диапазона
+            }
+
+            // Цена = базовая цена × уровень
+            price = basePrice * level;
+
+        } else {
+            // Восстанавливаем сохранённые состояния
+            if (savedRadioRb !== null) {
+                if (savedRadioRb) {
+                    const rbEl = document.getElementById(savedRadioRb);
+                    if (rbEl) rbEl.checked = true;
+                }
+                if (savedRadioRe) {
+                    const reEl = document.getElementById(savedRadioRe);
+                    if (reEl) reEl.checked = true;
+                }
+                gigaCheck.checked = savedGigaCheck;
+                savedRadioRb = null;
+                savedRadioRe = null;
+                savedGigaCheck = false;
+            }
+
+            // Обычный расчёт (не Страйдер)
+            let multiplier = 1;
+            document.querySelectorAll('input[name="rb"]:checked').forEach(el => {
+                multiplier *= parseFloat(el.value) * cluster;
+            });
+            document.querySelectorAll('input[name="re"]:checked').forEach(el => {
+                multiplier *= parseFloat(el.value);
+            });
+            if (gigaCheck.checked) {
+                multiplier *= parseFloat(gigaCheck.value);
+            }
+
+            price = level * multiplier;
+            if (multiplier <= 1) price = 0;
+
+            // Минимальные цены
+            if (level >= 1 && level <= 5) {
+                price = CONFIG.MIN_PRICES.LOW;
+            } else if (level >= 6 && level <= 9) {
+                price = CONFIG.MIN_PRICES.MEDIUM;
+            }
+        }
+
+        const formattedPrice = formatNumber(price);
+        document.getElementById('result').textContent = `Итоговая цена в Элементе: ${formattedPrice}`;
+        renderResourceList('resources', price, CONFIG.RESOURCE_MULTIPLIERS);
+    }
+
+    // Обработчики событий
+    document.getElementById('lvl').addEventListener('input', calculate);
+    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => {
+        el.addEventListener('change', calculate);
+    });
+
+    // Инициализация
+    calculate();
+});
+
+// Функция сброса радиогруппы
+function resetRadio(name) {
+    document.querySelectorAll(`input[name="${name}"]`).forEach(el => el.checked = false);
+    if (name === 'rb') {
+        savedRadioRb = null;
+    }
+    if (name === 're') {
+        savedRadioRe = null;
+    }
+    document.querySelectorAll('input').forEach(el => el.dispatchEvent(new Event('change')));
+    return false;
+}

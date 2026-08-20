@@ -60,9 +60,7 @@
             display: block;
         }
 
-        /*.input-group input, .input-group span*/
-        .input-group input
-        {
+        .input-group input {
             padding: 12px;
             font-size: 16px;
             background-color: #333333;
@@ -81,8 +79,7 @@
             color: #e0e0e0;
         }
 
-        .input-group input:focus,
-        .input-group span:focus {
+        .input-group input:focus {
             outline: none;
             border-color: #7c4dff;
         }
@@ -284,144 +281,141 @@
 </head>
 <body>
     <div class="container">
-        <div class = "el__logo"><a href = "index.html"><img src = "min_logo.png" /></a></div>
-        <div class = "bl_alert warning">
+        <div class="el__logo"><a href="index.html"><img src="min_logo.png" /></a></div>
+        <div class="bl_alert warning">
             <h4>Кластер x5</h4>
         </div>
-        <div class = "bl_alert default">
+        <div class="bl_alert default">
             <p>- Заполните <strong>показатели снаряжения</strong> вещи которую собираетесь продать. Будь то <strong>Максимальная прочность</strong>, <strong>Броня</strong>, <strong>Урон</strong> или <strong>Сопротивление стихиям</strong>. Укажите Количество предметов.</p>
             <p>- При необходимости выбирите <strong>вид Чертежа</strong> (если продаете чертеж, а не саму вещь). В <strong>чертеже ограниченного крафта</strong> выбирите <strong>Количество попыток</strong>.</p>
             <p>- Выберите один из <strong>классов брони, седла или оружия/инструмента</strong></p>
             <p>- После заполнения необходимых данных продаваемой вещи вы увидите ее стоимость в соответствующих полях с несколькими видами ресурсов.</p>
         </div>
-        <div class = "bl_column__containder">
-            <div class = "bl_column__item">
+        <div class="bl_column__containder">
+            <div class="bl_column__item">
                 <div class="input-group">
-                    <label for="qty" class = "el__title">Количество предметов:</label>
+                    <label for="qty" class="el__title">Количество предметов:</label>
                     <input type="number" oninput="this.value = this.value.replace(/[^\d]/g, '')" id="qty" value="1">
                 </div>
                 <div class="input-group">
-                    <label for="armor" class = "el__title">Броня:</label>
+                    <label for="armor" class="el__title">Броня:</label>
                     <input type="number" oninput="this.value = this.value.replace(/[^\d]/g, '')" id="armor" value="0">
                 </div>
                 <div class="input-group">
-                    <label for="dmg" class = "el__title">Урон:</label>
+                    <label for="dmg" class="el__title">Урон:</label>
                     <input type="number" oninput="this.value = this.value.replace(/[^\d]/g, '')" id="dmg" value="0">
                 </div>
-                <input type="hidden" id="cluster" value="5" disabled>
             </div>
-            <div class = "bl_column__item">
-                 <div class="input-group">
-                    <label for="strength" class = "el__title">Максимальная прочность:</label>
+            <div class="bl_column__item">
+                <div class="input-group">
+                    <label for="strength" class="el__title">Максимальная прочность:</label>
                     <input type="number" oninput="this.value = this.value.replace(/[^\d]/g, '')" id="strength" value="0">
                 </div>
                 <div class="input-group">
-                    <label for="freez" class = "el__title">Сопротивление холоду:</label>
+                    <label for="freez" class="el__title">Сопротивление холоду:</label>
                     <input type="number" oninput="this.value = this.value.replace(/[^\d]/g, '')" id="freez" value="0">
                 </div>
                 <div class="input-group">
-                    <label for="fire" class = "el__title">Сопротивление жаре:</label>
+                    <label for="fire" class="el__title">Сопротивление жаре:</label>
                     <input type="number" oninput="this.value = this.value.replace(/[^\d]/g, '')" id="fire" value="0">
                 </div>
             </div>
         </div>
-         <div class = "bl_column__containder">
-            <div class = "bl_column__item">
-                 <div class="input-group">
-                    <div class="input-group">
-                    <label class = "el__title">Чертеж <span class = "el_reset__radio" onclick="return resetRadio('draft');">✘</span></label>
-                        <div class="checkbox-group">
-                            <label class="aiz-switch aiz-switch-success mb-0">
-                                <input name = "draft" type="radio" value = "1.6" id="draft_not_limit">
-                                <span class="slider round"></span>
-                                Чертеж неограниченного крафта
-                            </label>
-                            <label class="aiz-switch aiz-switch-success mb-0">
-                                <input name = "draft" type="radio" value = "1" id="draft_limit">
-                                <span class="slider round"></span>
-                                Чертеж ограниченного крафта 
-                            </label>
-                        </div>
+        <div class="bl_column__containder">
+            <div class="bl_column__item">
+                <div class="input-group">
+                    <label class="el__title">Чертеж <span class="el_reset__radio" onclick="return resetRadio('draft');">✘</span></label>
+                    <div class="checkbox-group">
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name="draft" type="radio" value="1.6" id="draft_not_limit">
+                            <span class="slider round"></span>
+                            Чертеж неограниченного крафта
+                        </label>
+                        <label class="aiz-switch aiz-switch-success mb-0">
+                            <input name="draft" type="radio" value="1" id="draft_limit">
+                            <span class="slider round"></span>
+                            Чертеж ограниченного крафта 
+                        </label>
                     </div>
                 </div>
             </div>
-            <div class = "bl_column__item">
+            <div class="bl_column__item">
                 <div class="input-group bl_qty_draft">
-                    <label for="lvl" class = "el__title">Количество попыток ограниченного крафта</label>
+                    <label for="qty_draft" class="el__title">Количество попыток ограниченного крафта</label>
                     <select id="qty_draft">
-                        <option value = "1" selected>1</option>
-                        <option value = "2">2</option>
-                        <option value = "3">3</option>
+                        <option value="1" selected>1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
                     </select>
                 </div>
             </div>
         </div>
-        <div class = "bl_column__containder">
-            <div class = "bl_column__item">
+        <div class="bl_column__containder">
+            <div class="bl_column__item">
                 <div class="input-group">
-                    <label class = "el__title">Класс брони <span class = "el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
+                    <label class="el__title">Класс брони <span class="el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
                     <div class="checkbox-group">
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "0.24" id="b1">
+                            <input name="rb" type="radio" value="0.24" id="b1">
                             <span class="slider round"></span>
                             Тек (кроме щита), Защитная (химка), Жемчужная.
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "0.14" id="b2">
+                            <input name="rb" type="radio" value="0.14" id="b2">
                             <span class="slider round"></span>
                             Штурмовая (кроме щита), металлическая, тек щит.
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "0.08" id="b3">
+                            <input name="rb" type="radio" value="0.08" id="b3">
                             <span class="slider round"></span>
                             Штурмовой щит и все остальное.
                         </label>
                     </div>
                 </div>
             </div>
-            <div class = "bl_column__item">
+            <div class="bl_column__item">
                 <div class="input-group">
-                    <label class = "el__title">Класс Седла <span class = "el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
+                    <label class="el__title">Класс Седла <span class="el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
                     <div class="checkbox-group">
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "10" id="b4">
+                            <input name="rb" type="radio" value="10" id="b4">
                             <span class="slider round"></span>
                             Тек.
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "6" id="b5">
+                            <input name="rb" type="radio" value="6" id="b5">
                             <span class="slider round"></span>
                             Модовские дино, кархо, гига, рекс, мегатерий, терезина, магмазавр, богомол, ютираннус, велоназавр, дейноних, мегалозавр, дрейк, десмодус, базилозавр, тусик.
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "3" id="b6">
+                            <input name="rb" type="radio" value="3" id="b6">
                             <span class="slider round"></span>
                             Все остальные. При рассчете цены Седла для Кротокрыса прочность не учитывается.
                         </label>
                     </div>
                 </div>
             </div>
-            <div class = "bl_column__item">
+            <div class="bl_column__item">
                 <div class="input-group">
-                    <label class = "el__title">Класс оружия или инструмента <span class = "el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
+                    <label class="el__title">Класс оружия или инструмента <span class="el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
                     <div class="checkbox-group">
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "3" id="b7">
+                            <input name="rb" type="radio" value="3" id="b7">
                             <span class="slider round"></span>
                             Тек лук.
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "2" id="b8">
+                            <input name="rb" type="radio" value="2" id="b8">
                             <span class="slider round"></span>
-                            Бензопила, длинная винтовка, весь тек (кроме тек лука  и горного бура).
+                            Бензопила, длинная винтовка, весь тек (кроме тек лука и горного бура).
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "1" id="b9">
+                            <input name="rb" type="radio" value="1" id="b9">
                             <span class="slider round"></span>
                             Помповое ружье, снайперская винтовка, блочный лук, меч, кирка, талассианская вин., топор.
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "0.4" id="b10">
+                            <input name="rb" type="radio" value="0.4" id="b10">
                             <span class="slider round"></span>
                             Горный бур и все остальное.
                         </label>
@@ -435,7 +429,8 @@
             <h3>Итоговое значение в других ресурсах:</h3>
         </div>
     </div>
-    <script defer="" src="script_items.js?v=1.0.2"></script>
+    <script src="config.js"></script>
+    <script src="utils.js"></script>
+    <script src="script_items.js?v=1.0.3"></script>
 </body>
-
 </html>

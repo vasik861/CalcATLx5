@@ -59,9 +59,7 @@
             font-weight: bold;
         }
 
-        /*.input-group input, .input-group span*/
-        .input-group input
-        {
+        .input-group input {
             padding: 12px;
             font-size: 16px;
             background-color: #333333;
@@ -70,8 +68,7 @@
             color: #eaeaea;
         }
 
-        .input-group input:focus,
-        .input-group span:focus {
+        .input-group input:focus {
             outline: none;
             border-color: #7c4dff;
         }
@@ -269,99 +266,96 @@
 </head>
 <body>
     <div class="container">
-        <div class = "el__logo"><a href = "index.html"><img src = "min_logo.png" /></a></div>
-        <div class = "bl_alert warning">
+        <div class="el__logo"><a href="index.html"><img src="min_logo.png" /></a></div>
+        <div class="bl_alert warning">
             <h4>Кластер x5</h4>
             <p>Дино у которых родной уровень <strong>6-9 имеют минимальную</strong> цену при продаже - <strong>3500 элемента</strong></p>
             <p>Минимальная цена на дино 1-5 лвлов составляет 10.500 элемента</p>
         </div>
-        <div class = "bl_alert default">
+        <div class="bl_alert default">
             <p>- В поле <strong>Уровень динозавра/яйца</strong> ввести врожденный уровень продаваемого дино. *<i>Врожденный уровень - уровень который дино получает после рождения или приручения.</i></p>
             <p>- Выбрать <strong>Характеристики динозавра</strong>. При необходимости выбрать <strong>Количество характеристик 65+</strong> и <strong>Гигантозавр,Кархородонтозавр,Мек</strong> (если продаваемый дино относится к этому виду).</p>
             <p>- Для расчета цены Страйдера достаточно выбрать <strong>Страйдер</strong> и ввести его уровень.</p>
             <p>- После заполнения необходимых данных по вашему дино вы увидите стоимость вашего динозавра с несколькими видами ресурсов.</p>
         </div>
-        <div class = "bl_column__containder">
-            <div class = "bl_column__item">
+        <div class="bl_column__containder">
+            <div class="bl_column__item">
                 <div class="input-group">
-                    <label for="lvl" class = "el__title">Уровень динозавра/яйца:</label>
+                    <label for="lvl" class="el__title">Уровень динозавра/яйца:</label>
                     <input type="number" oninput="this.value = this.value.replace(/[^\d]/g, '')" id="lvl" value="0">
                 </div>
-                <input type="hidden" id="cluster" value="5" disabled>
             </div>
-            <div class = "bl_column__item">
-            </div>
+            <div class="bl_column__item"></div>
         </div>
-        <div class = "bl_column__containder">
-            <div class = "bl_column__item">
+        <div class="bl_column__containder">
+            <div class="bl_column__item">
                 <div class="input-group">
-                    <label class = "el__title">Характеристики динозавра <span class = "el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
+                    <label class="el__title">Характеристики динозавра <span class="el_reset__radio" onclick="return resetRadio('rb');">✘</span></label>
                     <div class="checkbox-group">
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "3" id="b4">
+                            <input name="rb" type="radio" value="3" id="b4">
                             <span class="slider round"></span>
                             Имеющего диких предков
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "4" id="b5">
+                            <input name="rb" type="radio" value="4" id="b5">
                             <span class="slider round"></span>
                             Имеющего не дикую родословную
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "6" id="b6">
+                            <input name="rb" type="radio" value="6" id="b6">
                             <span class="slider round"></span>
                             Одна из хар-к 65 или выше
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "10" id="b7">
+                            <input name="rb" type="radio" value="10" id="b7">
                             <span class="slider round"></span>
                             Одна из хар-к 100 или выше
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "15" id="b8">
+                            <input name="rb" type="radio" value="15" id="b8">
                             <span class="slider round"></span>
                             Одна из хар-к 150 или выше
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "20" id="b9">
+                            <input name="rb" type="radio" value="20" id="b9">
                             <span class="slider round"></span>
                             Одна из хар-к 200 или выше
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "rb" type="radio" value = "30" id="b10">
+                            <input name="rb" type="radio" value="30" id="b10">
                             <span class="slider round"></span>
                             Одна из хар-к 250 или выше
                         </label>
                     </div>
                 </div>
             </div>
-
-            <div class = "bl_column__item">
+            <div class="bl_column__item">
                 <div class="input-group">
-                    <label class = "el__title">Колличество характеристик 65+ <span class = "el_reset__radio" onclick="return resetRadio('re');">✘</span></label>
+                    <label class="el__title">Колличество характеристик 65+ <span class="el_reset__radio" onclick="return resetRadio('re');">✘</span></label>
                     <div class="checkbox-group">
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "re" type="radio" value = "1.7" id="e4">
+                            <input name="re" type="radio" value="1.7" id="e4">
                             <span class="slider round"></span>
                             2 характеристики +70% к цене
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "re" type="radio" value = "1.8" id="e5">
+                            <input name="re" type="radio" value="1.8" id="e5">
                             <span class="slider round"></span>
                             3 характеристики +80% к цене
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "re" type="radio" value = "1.9" id="e6">
+                            <input name="re" type="radio" value="1.9" id="e6">
                             <span class="slider round"></span>
                             4 характеристики +90% к цене
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "re" type="radio" value = "1.95" id="e7">
+                            <input name="re" type="radio" value="1.95" id="e7">
                             <span class="slider round"></span>
                             5 характеристики +95% к цене
                         </label>
                         <label class="aiz-switch aiz-switch-success mb-0">
-                            <input name = "re" type="radio" value = "2" id="e8">
+                            <input name="re" type="radio" value="2" id="e8">
                             <span class="slider round"></span>
                             6 характеристик и более +100% к цене
                         </label>
@@ -369,7 +363,7 @@
                 </div>
                 <div class="input-group">
                     <label class="aiz-switch aiz-switch-success mb-0 el__pointer">
-                        <input type="checkbox" value = "2" id="e10">
+                        <input type="checkbox" value="2" id="e10">
                         <span class="slider round"></span>
                         Гиганотозавр, Кархородонтозавр, Мек
                     </label>
@@ -389,6 +383,8 @@
             <h3>Итоговое значение в других ресурсах:</h3>
         </div>
     </div>
-    <script defer="" src="script_dino.js?v=1.0.2"></script>
+    <script src="config.js"></script>
+    <script src="utils.js"></script>
+    <script src="script_dino.js?v=1.0.3"></script>
 </body>
 </html>
