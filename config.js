@@ -1,6 +1,6 @@
 // config.js
 const CONFIG = {
-    CLUSTER: 5,
+    CLUSTER: 3,
     MIN_PRICES: {
         LOW: 10500,
         MEDIUM: 3500
